@@ -1399,10 +1399,10 @@
               <i class="fa-solid fa-plane"></i>
               <select id="bwApAirport">
                 <option value="" disabled selected data-i18n="bw.ap.airport">Airport</option>
-                <option>Lapangan Terbang Sultan Abdul Halim (AOR)</option>
-                <option>Lapangan Terbang Langkawi (LGK)</option>
+                <option data-i18n="bw.airport.aor">Sultan Abdul Halim Airport (AOR)</option>
+                <option data-i18n="bw.airport.lgk">Langkawi Airport (LGK)</option>
                 <option>KLIA / KLIA2</option>
-                <option>Penang International Airport</option>
+                <option data-i18n="bw.airport.pen">Penang International Airport</option>
               </select>
             </div>
             <div class="bw-field">
@@ -1423,7 +1423,7 @@
               <i class="fa-solid fa-suitcase-rolling"></i>
               <select id="bwApBags">
                 <option value="" disabled selected data-i18n="bw.ap.bags">Luggage</option>
-                <option>1 beg</option><option>2 beg</option><option>3 beg</option><option>4+ beg</option>
+                <option data-i18n="bw.bag.1">1 bag</option><option data-i18n="bw.bag.2">2 bags</option><option data-i18n="bw.bag.3">3 bags</option><option data-i18n="bw.bag.4">4+ bags</option>
               </select>
             </div>
             <div class="bw-field">
@@ -2837,7 +2837,20 @@
         'bw.ap.enquire':'Enquire via WhatsApp',
         'bw.cat.economy':'Economy Cars','bw.cat.sedan':'Sedan','bw.cat.mpv':'MPV',
         'bw.cat.suv':'SUV','bw.cat.van':'Van','bw.cat.luxury':'Luxury',
-        'bw.avail.clear':'Clear Date Filter','bw.err.date':'Return date must be after pickup date.','bw.avail.units':' units available','modal.wa.q':'Questions?',
+        'bw.avail.clear':'Clear Date Filter','bw.err.date':'Return date must be after pickup date.',
+        'success.totalPaid':'Total Paid','modal.daysUnit':'days',
+        'bw.airport.aor':'Sultan Abdul Halim Airport (AOR)','bw.airport.lgk':'Langkawi Airport (LGK)','bw.airport.pen':'Penang International Airport',
+        'bw.bag.1':'1 bag','bw.bag.2':'2 bags','bw.bag.3':'3 bags','bw.bag.4':'4+ bags',
+        'alert.soldOut':'Sorry, this car is fully booked. Please choose another car or contact us.',
+        'alert.selectDates':'Please select both Pickup and Return dates.',
+        'alert.dateOrder':'Return date must be after Pickup date.',
+        'alert.nameRequired':'Please enter your full name.',
+        'alert.emailInvalid':'Please enter a valid email.',
+        'alert.phoneRequired':'Please enter your phone number.',
+        'alert.icRequired':'Please enter your IC or Passport number.',
+        'alert.paymentError':'Error processing payment. Please try again or contact us via WhatsApp.',
+        'alert.carUnavailable':'Sorry, this car was just booked during the process. Please choose another car.',
+        'banner.carsAvail':'cars available','modal.daysWord':'days','bw.avail.units':' units available','modal.wa.q':'Questions?',
         'listing.booked':'Booked',
         'modal.checking':'Checking date availability...','modal.pickDate':'Pickup Date',
         'modal.retDate':'Return Date','modal.pickupLabel':'Pickup','modal.dropoffLabel':'Drop Off',
@@ -2919,7 +2932,20 @@
         'bw.ap.enquire':'Tanya Melalui WhatsApp',
         'bw.cat.economy':'Kereta Ekonomi','bw.cat.sedan':'Sedan','bw.cat.mpv':'MPV',
         'bw.cat.suv':'SUV','bw.cat.van':'Van','bw.cat.luxury':'Mewah',
-        'bw.avail.clear':'Buang Filter Tarikh','bw.err.date':'Tarikh Return mesti selepas Tarikh Pickup.','bw.avail.units':' unit tersedia','modal.wa.q':'Ada pertanyaan?',
+        'bw.avail.clear':'Buang Filter Tarikh','bw.err.date':'Tarikh Return mesti selepas Tarikh Pickup.',
+        'success.totalPaid':'Jumlah Dibayar','modal.daysUnit':'hari',
+        'bw.airport.aor':'Lapangan Terbang Sultan Abdul Halim (AOR)','bw.airport.lgk':'Lapangan Terbang Langkawi (LGK)','bw.airport.pen':'Lapangan Terbang Antarabangsa Pulau Pinang',
+        'bw.bag.1':'1 beg','bw.bag.2':'2 beg','bw.bag.3':'3 beg','bw.bag.4':'4+ beg',
+        'alert.soldOut':'Maaf, kereta ini telah habis dipesan. Sila pilih kereta lain atau hubungi kami.',
+        'alert.selectDates':'Sila pilih Tarikh Pickup dan Return.',
+        'alert.dateOrder':'Tarikh Return mesti selepas Tarikh Pickup.',
+        'alert.nameRequired':'Sila masukkan nama penuh.',
+        'alert.emailInvalid':'Sila masukkan e-mel yang sah.',
+        'alert.phoneRequired':'Sila masukkan nombor telefon.',
+        'alert.icRequired':'Sila masukkan nombor IC atau Passport.',
+        'alert.paymentError':'Ralat semasa memproses. Sila cuba lagi atau hubungi kami melalui WhatsApp.',
+        'alert.carUnavailable':'Maaf, kereta ini telah habis dipesan semasa proses. Sila pilih kereta lain.',
+        'banner.carsAvail':'kereta tersedia','modal.daysWord':'hari','bw.avail.units':' unit tersedia','modal.wa.q':'Ada pertanyaan?',
         'listing.booked':'Ditempah',
         'modal.checking':'Menyemak ketersediaan tarikh...','modal.pickDate':'Tarikh Pickup',
         'modal.retDate':'Tarikh Return','modal.pickupLabel':'Pickup','modal.dropoffLabel':'Drop Off',
@@ -3240,7 +3266,7 @@
           <p class="jfz-sec-label" data-i18n="modal.carLbl">Car</p>
           <div id="jfzSuccessDetails"><p style="font-size:13px;color:rgba(255,255,255,.4)">Memuatkan maklumat…</p></div>
           <div class="jfz-total-box" id="jfzSuccessTotalBox" style="display:none">
-            <span class="jfz-total-lbl">Jumlah Dibayar</span>
+            <span class="jfz-total-lbl" data-i18n="success.totalPaid">Total Paid</span>
             <span class="jfz-total-val" id="jfzSuccessTotal">—</span>
           </div>
           <hr class="jfz-page-divider">
@@ -3530,13 +3556,13 @@
         <div id="jfzCustomNote" class="jfz-custom-note" data-i18n="modal.customNote">Price for this car is set on request. We will contact you via WhatsApp to confirm.</div>
         <div class="jfz-row">
           <div class="jfz-field">
-            <label class="jfz-label" for="jfzPickLoc">Pickup</label>
+            <label class="jfz-label" for="jfzPickLoc" data-i18n="modal.pickupLabel">Pickup</label>
             <select class="jfz-select" id="jfzPickLoc">
               <option>Alor Setar</option><option>Kuala Kedah</option><option>Jitra</option><option>Sungai Petani</option><option>Kulim</option>
             </select>
           </div>
           <div class="jfz-field">
-            <label class="jfz-label" for="jfzDropLoc">Drop Off</label>
+            <label class="jfz-label" for="jfzDropLoc" data-i18n="modal.dropoffLabel">Drop Off</label>
             <select class="jfz-select" id="jfzDropLoc">
               <option>Alor Setar</option><option>Kuala Kedah</option><option>Jitra</option><option>Sungai Petani</option><option>Kulim</option>
             </select>
@@ -3562,9 +3588,9 @@
         </div>
         <div class="jfz-summary">
           <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.rateLbl">Rental rate</span><span class="jfz-sum-val" id="jfzRateDisplay">—</span></div>
-          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.daysLbl">Number of days</span><span class="jfz-sum-val"><span id="jfzDays">0</span> hari</span></div>
+          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.daysLbl">Number of days</span><span class="jfz-sum-val"><span id="jfzDays">0</span> <span data-i18n="modal.daysUnit">days</span></span></div>
           <hr class="jfz-sum-divider">
-          <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl">Jumlah</span><span class="jfz-sum-val" id="jfzTotal">—</span></div>
+          <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl" data-i18n="modal.totalLbl">Total</span><span class="jfz-sum-val" id="jfzTotal">—</span></div>
         </div>
         <button class="jfz-btn-primary" id="jfzNextBtn"><span class="jfz-btn-text" data-i18n="modal.next">Next: Personal Details →</span></button>
         <p class="jfz-contact-note"><span data-i18n="modal.wa.q">Questions?</span> <a href="https://wa.me/60108118968" target="_blank" rel="noopener" data-i18n="modal.wa">Contact WhatsApp</a></p>
@@ -3583,7 +3609,7 @@
           <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.dateLbl">Date</span><span class="jfz-sum-val" id="jfzRecapDates">—</span></div>
           <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.locLbl">Location</span><span class="jfz-sum-val" id="jfzRecapLoc">—</span></div>
           <hr class="jfz-sum-divider">
-          <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl">Jumlah</span><span class="jfz-sum-val" id="jfzRecapTotal">—</span></div>
+          <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl" data-i18n="modal.totalPayLbl">Total Payment</span><span class="jfz-sum-val" id="jfzRecapTotal">—</span></div>
         </div>
         <div class="jfz-btn-row">
           <button class="jfz-btn-secondary" id="jfzBackBtn">&larr; Balik</button>
@@ -3606,6 +3632,13 @@
   <script>
   (function () {
     'use strict';
+
+  /* ── i18n helper for JS strings (global) ── */
+  window.jfzT = function(key, fallback) {
+    var d = window._i18nDict || {};
+    return d[key] || fallback || key;
+  };
+  var jfzT = window.jfzT;
 
   /* ── CONFIG ── */
   var CFG = {
@@ -3699,7 +3732,7 @@
     var inv   = INVENTORY[carId];
     var avail = inv ? (typeof inv.available === 'number' ? inv.available : inv) : 999;
     if (inv && avail <= 0) {
-      alert('Maaf, kereta ini telah habis dipesan. Sila pilih kereta lain atau hubungi kami.');
+      alert(jfzT('alert.soldOut'));
       return;
     }
 
@@ -3782,8 +3815,8 @@
    * ══════════════════════════════════════ */
   function goNext() {
     var p = S._pickDateStr || '', r = S._retDateStr || '';
-    if(!p||!r){alert('Sila pilih Tarikh Pickup dan Return.');return;}
-    if(S.days<=0){alert('Tarikh Return mesti selepas Tarikh Pickup.');return;}
+    if(!p||!r){alert(jfzT('alert.selectDates'));return;}
+    if(S.days<=0){alert(jfzT('alert.dateOrder'));return;}
     if(S.pricePerDay===0){
       var fmt=function(d){if(!d)return'-';var a=d.split('-');return a[2]+'/'+a[1]+'/'+a[0];};
       var msg='Hi JFZ, saya ingin bertanya harga sewa '+S.carName+'.'
@@ -3795,7 +3828,7 @@
     }
     var fmt=function(d){if(!d)return'-';var a=d.split('-');return a[2]+'/'+a[1]+'/'+a[0];};
     document.getElementById('jfzRecapCar').textContent   = S.carName;
-    document.getElementById('jfzRecapDates').textContent = fmt(p)+' – '+fmt(r)+' ('+S.days+' hari)';
+    document.getElementById('jfzRecapDates').textContent = fmt(p)+' – '+fmt(r)+' ('+S.days+' '+jfzT('modal.daysWord','days')+')';
     document.getElementById('jfzRecapLoc').textContent   = document.getElementById('jfzPickLoc').value+' → '+document.getElementById('jfzDropLoc').value;
     document.getElementById('jfzRecapTotal').textContent = 'RM '+S.total;
     clearError(); showStep(2);
@@ -3807,10 +3840,10 @@
   function validateStep2(){
     var n=document.getElementById('jfzName').value.trim(),em=document.getElementById('jfzEmail').value.trim(),
         ph=document.getElementById('jfzPhone').value.trim(),ic=document.getElementById('jfzIC').value.trim();
-    if(!n){showError('Sila masukkan nama penuh.');return false;}
-    if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){showError('Sila masukkan e-mel yang sah.');return false;}
-    if(!ph){showError('Sila masukkan nombor telefon.');return false;}
-    if(!ic){showError('Sila masukkan nombor IC atau Passport.');return false;}
+    if(!n){showError(jfzT('alert.nameRequired'));return false;}
+    if(!em||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){showError(jfzT('alert.emailInvalid'));return false;}
+    if(!ph){showError(jfzT('alert.phoneRequired'));return false;}
+    if(!ic){showError(jfzT('alert.icRequired'));return false;}
     return true;
   }
 
@@ -3846,7 +3879,7 @@
       var res=await fetch(CFG.workerUrl+'/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
       var json=await res.json();
       if(json.error==='car_unavailable'){
-        showError('Maaf, kereta ini telah habis dipesan semasa proses. Sila pilih kereta lain.');
+        showError(jfzT('alert.carUnavailable'));
         if(INVENTORY[S.carId]) INVENTORY[S.carId].available=0;
         updateInventoryUI();
         btn.disabled=false; btn.classList.remove('is-loading'); return;
@@ -3855,7 +3888,7 @@
       throw new Error(json.error||'No checkout URL');
     }catch(err){
       console.error('[JFZ]',err);
-      showError('Ralat semasa memproses. Sila cuba lagi atau hubungi kami melalui WhatsApp.');
+      showError(jfzT('alert.paymentError'));
       btn.disabled=false; btn.classList.remove('is-loading');
     }
   }
@@ -4709,7 +4742,7 @@
           var msg    = document.getElementById('rnxAvailMsg');
           if (banner) banner.classList.add('is-visible');
           if (msg) msg.innerHTML = '<i class="fa-solid fa-calendar-check" style="color:#e4a15a"></i> '
-            + catLabel + '<strong>' + availCount + ' kereta</strong> tersedia '
+            + catLabel + '<strong>' + availCount + ' ' + jfzT('banner.carsAvail','cars available') + '</strong> '
             + fmt(pickD) + ' → ' + fmt(retD);
         })
         .catch(function() {
