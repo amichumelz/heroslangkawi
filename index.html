@@ -3718,6 +3718,7 @@
           return r.json();
         })
         .then(function(data){
+          window._JFZ_ADMIN_PW = pw;
           document.getElementById('adminLoginPanel').style.display='none';
           document.getElementById('adminDashboard').style.display='block';
           document.getElementById('adminTopbarRight').style.display='';
@@ -3902,7 +3903,9 @@
     'use strict';
 
     var WORKER = 'https://wispy-cloud-2e6f.1211111996.workers.dev';
-    var ADMIN_PW_FN = function(){ return window._JFZ_ADMIN_PW || ''; };
+    var ADMIN_PW_FN = function(){
+      return window._JFZ_ADMIN_PW || (document.getElementById('adminPwInput')||{}).value || '';
+    };
 
     /* ─────────────────────────────
      * LISTING PAGE: fetch & render
