@@ -2932,9 +2932,10 @@
 
   /* ── CONFIG ── */
   var CFG = {
-    workerUrl: 'https://wispy-cloud-2e6f.1211111996.workers.dev/', // ← TUKAR INI
+    workerUrl: 'https://wispy-cloud-2e6f.1211111996.workers.dev', // ← TUKAR INI
     whatsapp:  '60108118968',
   };
+  window._JFZ_WORKER = CFG.workerUrl;
 
   /* ── STATE ── */
   var S = { carId:'', carName:'', pricePerDay:0, days:0, total:0 };
@@ -3235,7 +3236,7 @@
     'use strict';
 
     var ADMIN_PW  = '';
-    var ADMIN_URL = ''; // set from CFG.workerUrl after booking script loads
+    var ADMIN_URL = 'https://wispy-cloud-2e6f.1211111996.workers.dev';
 
     var CARS = [
       {id:'axia-style', name:'Perodua Axia 1.0 Style 2020',         price:90},
