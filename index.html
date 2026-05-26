@@ -1130,18 +1130,7 @@
     }
     .rnx-avail-clear:hover { color: #fff; border-color: rgba(255,255,255,.4); }
     /* Unavailable card during date filter */
-    .rnx-card.date-unavail {
-      opacity: .35; pointer-events: none;
-      filter: grayscale(0.6);
-      position: relative;
-    }
-    .rnx-card.date-unavail::after {
-      content: var(--jfz-booked-label, 'Booked'); position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-      background: rgba(239,68,68,.85); color: #fff;
-      font-weight: 700; font-size: 13px; border-radius: 8px;
-      padding: 6px 16px; pointer-events: none;
-    }
+    .rnx-card.date-unavail { display: none !important; }
     /* Searching spinner in button */
     .bw-cta .bw-spinner {
       width: 16px; height: 16px; border: 2px solid rgba(0,0,0,.2);
@@ -2760,6 +2749,14 @@
     });
 
     window.addEventListener('popstate', router);
+    window.addEventListener('hashchange', router);
+
+    /* Expose navigation for other scripts */
+    window.jfzNavigate = function(hash) {
+      history.pushState(null, '', hash);
+      router();
+    };
+
     window.addEventListener('load', function() {
       var params = new URLSearchParams(window.location.search);
       var jfzStatus = params.get('jfz');
@@ -2840,7 +2837,7 @@
         'bw.ap.enquire':'Enquire via WhatsApp',
         'bw.cat.economy':'Economy Cars','bw.cat.sedan':'Sedan','bw.cat.mpv':'MPV',
         'bw.cat.suv':'SUV','bw.cat.van':'Van','bw.cat.luxury':'Luxury',
-        'bw.avail.clear':'Clear Date Filter','bw.avail.units':' units available','modal.wa.q':'Questions?',
+        'bw.avail.clear':'Clear Date Filter','bw.err.date':'Return date must be after pickup date.','bw.avail.units':' units available','modal.wa.q':'Questions?',
         'listing.booked':'Booked',
         'modal.checking':'Checking date availability...','modal.pickDate':'Pickup Date',
         'modal.retDate':'Return Date','modal.pickupLabel':'Pickup','modal.dropoffLabel':'Drop Off',
@@ -2922,7 +2919,7 @@
         'bw.ap.enquire':'Tanya Melalui WhatsApp',
         'bw.cat.economy':'Kereta Ekonomi','bw.cat.sedan':'Sedan','bw.cat.mpv':'MPV',
         'bw.cat.suv':'SUV','bw.cat.van':'Van','bw.cat.luxury':'Mewah',
-        'bw.avail.clear':'Buang Filter Tarikh','bw.avail.units':' unit tersedia','modal.wa.q':'Ada pertanyaan?',
+        'bw.avail.clear':'Buang Filter Tarikh','bw.err.date':'Tarikh Return mesti selepas Tarikh Pickup.','bw.avail.units':' unit tersedia','modal.wa.q':'Ada pertanyaan?',
         'listing.booked':'Ditempah',
         'modal.checking':'Menyemak ketersediaan tarikh...','modal.pickDate':'Tarikh Pickup',
         'modal.retDate':'Tarikh Return','modal.pickupLabel':'Pickup','modal.dropoffLabel':'Drop Off',
@@ -4610,30 +4607,32 @@
       var pickD  = (document.getElementById('bwRentalPickDate')||{}).value || '';
       var retD   = (document.getElementById('bwRentalRetDate')||{}).value || '';
 
-      // Validate dates
+      // Validate
       if (pickD && retD && retD <= pickD) {
-        alert('Tarikh Return mesti selepas Tarikh Pickup.'); return;
+        alert(window._i18nDict && window._i18nDict['bw.err.date'] || 'Return date must be after pickup date.');
+        return;
       }
 
-      // Navigate to listing
-      var hash = cat && cat !== 'all' ? '#listing-' + cat : '#listing';
-      history.pushState(null, '', hash);
-      window.dispatchEvent(new Event('hashchange'));
-
-      // Pre-fill modal prefill
+      // Pre-fill modal with widget values
       window._bwPrefill = { pickupLoc: pickup, dropoffLoc: dropoff, pickupDate: pickD, returnDate: retD };
 
-      // Scroll to listing
+      // Navigate using exposed router fn (fixes hashchange issue)
+      var hash = '#listing' + (cat && cat !== 'all' ? '-' + cat : '');
+      if (typeof window.jfzNavigate === 'function') {
+        window.jfzNavigate(hash);
+      } else {
+        location.hash = hash;
+      }
+
+      // Scroll listing into view
       setTimeout(function(){
         var el = document.getElementById('view-listing');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 80);
+      }, 150);
 
-      // If dates selected, fetch all availability and filter cards
+      // Apply date filter AFTER view is rendered (wait for router + dynamic cars)
       if (pickD && retD) {
-        bwApplyDateFilter(pickD, retD, cat);
-      } else {
-        bwClearDateFilter();
+        setTimeout(function() { bwApplyDateFilter(pickD, retD, cat); }, 400);
       }
     };
 
@@ -4687,19 +4686,16 @@
             var hasAvailUnit = bookedCount < totalUnits;
 
             var isAvail = hasAvailUnit;
-            var show = catMatch;
+            // Show card only if category matches AND available on selected dates
+            card.classList.remove('date-unavail');
+            card.style.display = '';
 
-            card.style.display = show ? '' : 'none';
-
-            if (show) {
-              if (isAvail) {
-                card.classList.remove('date-unavail');
-                availCount++;
-              } else {
-                card.classList.add('date-unavail');
-              }
+            if (!catMatch) {
+              card.style.display = 'none';
+            } else if (!isAvail) {
+              card.classList.add('date-unavail'); // display:none via CSS
             } else {
-              card.classList.remove('date-unavail');
+              availCount++;
             }
           });
 
@@ -4725,6 +4721,7 @@
     window.bwClearDateFilter = function() {
       document.querySelectorAll('.listing-card').forEach(function(c) {
         c.classList.remove('date-unavail');
+        c.style.display = ''; // reset any inline display:none
       });
       var banner = document.getElementById('rnxAvailBanner');
       if (banner) banner.classList.remove('is-visible');
