@@ -1035,6 +1035,23 @@
     .bw-cta:hover { background: linear-gradient(135deg, #fff 0%, #f0e0c8 100%); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(228,161,90,.3); }
     .bw-cta i { font-size: 14px; }
 
+
+    /* ── Category pill selector (admin form) ── */
+    .adm-cat-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .adm-cat-pill {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12);
+      background: transparent; color: rgba(255,255,255,.45);
+      font-size: 12.5px; font-weight: 600; cursor: pointer;
+      font-family: 'Outfit', sans-serif; transition: all .2s ease;
+    }
+    .adm-cat-pill:hover { border-color: rgba(228,161,90,.4); color: rgba(228,161,90,.8); }
+    .adm-cat-pill.is-active {
+      background: #e4a15a; border-color: #e4a15a;
+      color: #111;
+    }
+    .adm-cat-pill i { font-size: 11px; }
+
   </style>
 </head>
 <body>
@@ -3170,16 +3187,29 @@
                 <input class="adm-form-input" id="fCarName" placeholder="cth: Proton X50 1.5 Turbo 2023">
               </div>
 
-              <div class="adm-form-field">
-                <label class="adm-form-label">Kategori</label>
-                <select class="adm-form-select" id="fCarCat">
-                  <option value="economy">Economy</option>
-                  <option value="sedan">Sedan</option>
-                  <option value="mpv">MPV</option>
-                  <option value="suv">SUV</option>
-                  <option value="van">Van</option>
-                  <option value="luxury">Luxury</option>
-                </select>
+              <div class="adm-form-field full">
+                <label class="adm-form-label">Kategori Kereta</label>
+                <input type="hidden" id="fCarCat" value="economy">
+                <div class="adm-cat-pills" id="fCarCatPills">
+                  <button type="button" class="adm-cat-pill is-active" data-cat="economy" onclick="adminSelectCat(this)">
+                    <i class="fa-solid fa-car"></i> Economy Cars
+                  </button>
+                  <button type="button" class="adm-cat-pill" data-cat="sedan" onclick="adminSelectCat(this)">
+                    <i class="fa-solid fa-car-side"></i> Sedan
+                  </button>
+                  <button type="button" class="adm-cat-pill" data-cat="mpv" onclick="adminSelectCat(this)">
+                    <i class="fa-solid fa-van-shuttle"></i> MPV
+                  </button>
+                  <button type="button" class="adm-cat-pill" data-cat="van" onclick="adminSelectCat(this)">
+                    <i class="fa-solid fa-bus"></i> Van
+                  </button>
+                  <button type="button" class="adm-cat-pill" data-cat="suv" onclick="adminSelectCat(this)">
+                    <i class="fa-solid fa-truck-monster"></i> SUV
+                  </button>
+                  <button type="button" class="adm-cat-pill" data-cat="luxury" onclick="adminSelectCat(this)">
+                    <i class="fa-solid fa-star"></i> Luxury
+                  </button>
+                </div>
               </div>
 
               <div class="adm-form-field">
@@ -3987,6 +4017,14 @@
     /* ─────────────────────────────
      * ADMIN: form helpers
      * ───────────────────────────── */
+    /* ── Category pill selector ── */
+    window.adminSelectCat = function(el){
+      document.querySelectorAll('#fCarCatPills .adm-cat-pill').forEach(function(p){ p.classList.remove('is-active'); });
+      el.classList.add('is-active');
+      var hidden = document.getElementById('fCarCat');
+      if (hidden) hidden.value = el.getAttribute('data-cat');
+    };
+
     window.adminToggleAddForm = function(){
       var form = document.getElementById('adminAddCarForm');
       var btn  = document.getElementById('adminAddCarToggleBtn');
@@ -4015,6 +4053,9 @@
       });
       var catEl = document.getElementById('fCarCat');
       if (catEl) catEl.value = 'economy';
+      document.querySelectorAll('#fCarCatPills .adm-cat-pill').forEach(function(p){ p.classList.remove('is-active'); });
+      var firstPill = document.querySelector('#fCarCatPills .adm-cat-pill[data-cat="economy"]');
+      if (firstPill) firstPill.classList.add('is-active');
       var transEl = document.getElementById('fCarTrans');
       if (transEl) transEl.value = 'Auto';
       var editId = document.getElementById('editCarId');
@@ -4139,6 +4180,13 @@
           if (!car) { alert('Kereta tidak dijumpai.'); return; }
 
           document.getElementById('editCarId').value   = car.id;
+          // Set category pill
+          var editCat = car.category || 'economy';
+          var catHidden = document.getElementById('fCarCat');
+          if (catHidden) catHidden.value = editCat;
+          document.querySelectorAll('#fCarCatPills .adm-cat-pill').forEach(function(p){
+            p.classList.toggle('is-active', p.getAttribute('data-cat') === editCat);
+          });
           document.getElementById('fCarName').value    = car.name || '';
           document.getElementById('fCarPrice').value   = car.price || 0;
           document.getElementById('fCarCat').value     = car.category || 'economy';
