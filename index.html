@@ -898,6 +898,143 @@
       .adm-table th:nth-child(5), .adm-table td:nth-child(5) { display: none; }
       .adm-login-card { padding: 28px 20px; }
     }
+    /* ── Add Car Form ── */
+    .adm-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    @media (max-width: 600px) { .adm-form-grid { grid-template-columns: 1fr; } }
+    .adm-form-field { display: flex; flex-direction: column; gap: 6px; }
+    .adm-form-field.full { grid-column: 1 / -1; }
+    .adm-form-label { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.4); font-weight: 600; }
+    .adm-form-input, .adm-form-select, .adm-form-textarea {
+      background: #111; border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+      color: #fff; font-size: 13.5px; font-family: 'Outfit', sans-serif;
+      padding: 10px 14px; outline: none; transition: border-color .2s ease; box-sizing: border-box; width: 100%;
+    }
+    .adm-form-input:focus, .adm-form-select:focus, .adm-form-textarea:focus { border-color: #e4a15a; }
+    .adm-form-select { appearance: none; cursor: pointer; color-scheme: dark;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23e4a15a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+    .adm-form-textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+    .adm-img-preview { width: 100%; height: 140px; border-radius: 10px; object-fit: cover; background: #111; border: 1px dashed rgba(255,255,255,.15); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.2); font-size: 13px; overflow: hidden; }
+    .adm-img-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+    .adm-form-submit { width: 100%; height: 48px; border-radius: 999px; background: #e4a15a; color: #111; font-weight: 700; font-size: 14px; border: 0; cursor: pointer; font-family: 'Outfit', sans-serif; transition: background .25s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .adm-form-submit:hover { background: #fff; }
+    .adm-form-submit:disabled { opacity: .5; cursor: not-allowed; }
+    /* Dynamic car cards table */
+    .adm-dyn-empty { text-align: center; padding: 28px; color: rgba(255,255,255,.25); font-size: 13px; }
+    .adm-car-thumb { width: 52px; height: 38px; object-fit: cover; border-radius: 7px; background: #111; }
+    .adm-del-btn { background: rgba(239,68,68,.1); color: #f87171; border: 1px solid rgba(239,68,68,.2); border-radius: 7px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; transition: all .2s ease; }
+    .adm-del-btn:hover { background: rgba(239,68,68,.25); }
+    .adm-edit-btn { background: rgba(228,161,90,.1); color: #e4a15a; border: 1px solid rgba(228,161,90,.2); border-radius: 7px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; transition: all .2s ease; margin-right: 5px; }
+    .adm-edit-btn:hover { background: rgba(228,161,90,.25); }
+    /* Dynamic car cards in listing */
+    .rnx-card.dynamic-car { border: 1px solid rgba(228,161,90,.12); }
+    .rnx-card.dynamic-car .rnx-card-img { background: #111; }
+
+
+    /* ════════════════════════════════════════════
+     * BOOKING WIDGET
+     * ════════════════════════════════════════════ */
+    #bookingWidget {
+      background: #161616;
+      padding: 56px 48px;
+    }
+    @media (max-width: 768px) { #bookingWidget { padding: 36px 20px; } }
+
+    .bw-inner {
+      max-width: 860px; margin: 0 auto;
+    }
+    .bw-eyebrow {
+      font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+      color: #e4a15a; font-weight: 700; margin-bottom: 10px;
+    }
+    .bw-title {
+      font-size: 2rem; font-weight: 800; color: #fff;
+      margin-bottom: 32px; line-height: 1.2;
+    }
+    .bw-title span { color: #e4a15a; }
+
+    /* ── Service tabs ── */
+    .bw-tabs {
+      display: flex; gap: 6px; background: #111;
+      border-radius: 14px; padding: 5px;
+      margin-bottom: 20px; width: fit-content;
+    }
+    .bw-tab {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 10px; border: 0;
+      font-size: 13.5px; font-weight: 600; cursor: pointer;
+      color: rgba(255,255,255,.45); background: transparent;
+      font-family: 'Outfit', sans-serif; transition: all .25s ease;
+      white-space: nowrap;
+    }
+    .bw-tab i { font-size: 13px; }
+    .bw-tab.is-active { background: #e4a15a; color: #111; }
+    .bw-tab:hover:not(.is-active) { color: rgba(255,255,255,.8); background: rgba(255,255,255,.06); }
+
+    /* ── Card ── */
+    .bw-card {
+      background: #1e1e1e; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.07);
+      padding: 28px; display: none;
+    }
+    .bw-card.is-active { display: block; }
+
+    /* ── Row ── */
+    .bw-row { display: grid; gap: 12px; margin-bottom: 14px; }
+    .bw-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .bw-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .bw-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    @media (max-width: 640px) {
+      .bw-row.cols-2, .bw-row.cols-3, .bw-row.cols-4 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 900px) {
+      .bw-row.cols-4 { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── Field ── */
+    .bw-field {
+      display: flex; align-items: center; gap: 12px;
+      background: #111; border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px; padding: 0 16px; height: 54px;
+      transition: border-color .22s ease; cursor: pointer;
+    }
+    .bw-field:focus-within { border-color: #e4a15a; }
+    .bw-field i { color: #e4a15a; font-size: 15px; flex-shrink: 0; }
+    .bw-field input, .bw-field select {
+      flex: 1; background: transparent; border: 0; outline: 0;
+      color: #fff; font-size: 14px; font-family: 'Outfit', sans-serif;
+      cursor: pointer; width: 100%;
+    }
+    .bw-field input::placeholder { color: rgba(255,255,255,.35); }
+    .bw-field select { appearance: none; color-scheme: dark; }
+    .bw-field select option { background: #1e1e1e; }
+    .bw-field input[type=date] { color-scheme: dark; }
+
+    /* ── Sub-tabs (Within/Outside) ── */
+    .bw-subtabs {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    .bw-subtab {
+      flex: 1; height: 44px; border-radius: 10px; border: 1px solid rgba(255,255,255,.1);
+      font-size: 13.5px; font-weight: 600; cursor: pointer;
+      color: rgba(255,255,255,.4); background: transparent;
+      font-family: 'Outfit', sans-serif; transition: all .25s ease;
+    }
+    .bw-subtab.is-active { background: #e4a15a; color: #111; border-color: #e4a15a; }
+    .bw-subtab:hover:not(.is-active) { color: #fff; border-color: rgba(255,255,255,.25); }
+
+    /* ── CTA button ── */
+    .bw-cta {
+      width: 100%; height: 56px; border-radius: 14px;
+      background: linear-gradient(135deg, #e4a15a 0%, #c98a3a 100%);
+      color: #111; font-weight: 800; font-size: 15px;
+      border: 0; cursor: pointer; font-family: 'Outfit', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: all .28s ease; margin-top: 18px; letter-spacing: .01em;
+    }
+    .bw-cta:hover { background: linear-gradient(135deg, #fff 0%, #f0e0c8 100%); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(228,161,90,.3); }
+    .bw-cta i { font-size: 14px; }
+
   </style>
 </head>
 <body>
@@ -1021,6 +1158,191 @@
         <button type="button" class="hero-dot" data-hero-slide="2" aria-label="Hero slide 3"></button>
       </div>
     </section>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- BOOKING WIDGET                               -->
+    <!-- ════════════════════════════════════════════ -->
+    <section id="bookingWidget">
+      <div class="bw-inner">
+        <p class="bw-eyebrow">✦ Book Now</p>
+        <h2 class="bw-title">Apa Perkhidmatan <span>Yang Anda Perlu?</span></h2>
+
+        <!-- Service tabs -->
+        <div class="bw-tabs" role="tablist">
+          <button class="bw-tab is-active" data-bw-tab="rental" role="tab" aria-selected="true">
+            <i class="fa-solid fa-car"></i> Car Rental
+          </button>
+          <button class="bw-tab" data-bw-tab="chauffeur" role="tab">
+            <i class="fa-solid fa-user-tie"></i> Chauffeur
+          </button>
+          <button class="bw-tab" data-bw-tab="airport" role="tab">
+            <i class="fa-solid fa-plane-departure"></i> Airport Transfer
+          </button>
+        </div>
+
+        <!-- ── TAB: Car Rental ── -->
+        <div class="bw-card is-active" id="bwCard-rental">
+          <div class="bw-row cols-2">
+            <div class="bw-field">
+              <i class="fa-solid fa-location-dot"></i>
+              <select id="bwRentalPickup">
+                <option value="" disabled selected>Pickup Location</option>
+                <option>Alor Setar</option>
+                <option>Kuala Kedah</option>
+                <option>Jitra</option>
+                <option>Sungai Petani</option>
+                <option>Kulim</option>
+                <option>Langkawi</option>
+              </select>
+            </div>
+            <div class="bw-field">
+              <i class="fa-solid fa-location-arrow"></i>
+              <select id="bwRentalDropoff">
+                <option value="" disabled selected>Drop Off Location</option>
+                <option>Alor Setar</option>
+                <option>Kuala Kedah</option>
+                <option>Jitra</option>
+                <option>Sungai Petani</option>
+                <option>Kulim</option>
+                <option>Langkawi</option>
+              </select>
+            </div>
+          </div>
+          <div class="bw-row cols-3">
+            <div class="bw-field">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" id="bwRentalPickDate" placeholder="Pickup Date">
+            </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-calendar-check"></i>
+              <input type="date" id="bwRentalRetDate" placeholder="Return Date">
+            </div>
+            <div class="bw-field">
+              <i class="fa-solid fa-car-side"></i>
+              <select id="bwRentalCat">
+                <option value="" disabled selected>Car Type</option>
+                <option value="economy">Economy</option>
+                <option value="sedan">Sedan</option>
+                <option value="mpv">MPV</option>
+                <option value="suv">SUV</option>
+                <option value="van">Van</option>
+                <option value="luxury">Luxury</option>
+              </select>
+            </div>
+          </div>
+          <button class="bw-cta" onclick="bwSearchRental()">
+            <i class="fa-solid fa-magnifying-glass"></i> Cari Kereta Tersedia
+          </button>
+        </div>
+
+        <!-- ── TAB: Chauffeur ── -->
+        <div class="bw-card" id="bwCard-chauffeur">
+          <div class="bw-subtabs">
+            <button class="bw-subtab is-active" data-bw-sub="within" onclick="bwSetSub(this,'chauffeur')">Dalam Kedah</button>
+            <button class="bw-subtab" data-bw-sub="outside" onclick="bwSetSub(this,'chauffeur')">Luar Kedah</button>
+          </div>
+          <div class="bw-row cols-2">
+            <div class="bw-field">
+              <i class="fa-solid fa-location-dot"></i>
+              <input type="text" id="bwChPickup" placeholder="Pickup location">
+            </div>
+            <div class="bw-field">
+              <i class="fa-solid fa-flag-checkered"></i>
+              <input type="text" id="bwChDest" placeholder="Destination">
+            </div>
+          </div>
+          <div class="bw-row cols-3">
+            <div class="bw-field">
+              <i class="fa-solid fa-users"></i>
+              <select id="bwChPax">
+                <option value="" disabled selected>Passengers</option>
+                <option>1–2</option><option>3–4</option><option>5–6</option>
+                <option>7–8</option><option>9–10</option><option>11+</option>
+              </select>
+            </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" id="bwChDate" placeholder="Date">
+            </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-clock"></i>
+              <select id="bwChTime">
+                <option value="" disabled selected>Start time</option>
+                <option>6:00 AM</option><option>7:00 AM</option><option>8:00 AM</option>
+                <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+                <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+                <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+                <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <button class="bw-cta" onclick="bwEnquireWA('chauffeur')">
+            <i class="fa-brands fa-whatsapp"></i> Tanya Melalui WhatsApp
+          </button>
+        </div>
+
+        <!-- ── TAB: Airport Transfer ── -->
+        <div class="bw-card" id="bwCard-airport">
+          <div class="bw-subtabs">
+            <button class="bw-subtab is-active" data-bw-sub="arrival" onclick="bwSetSub(this,'airport')">🛬 Arrival</button>
+            <button class="bw-subtab" data-bw-sub="departure" onclick="bwSetSub(this,'airport')">🛫 Departure</button>
+          </div>
+          <div class="bw-row cols-2">
+            <div class="bw-field">
+              <i class="fa-solid fa-plane"></i>
+              <select id="bwApAirport">
+                <option value="" disabled selected>Airport</option>
+                <option>Lapangan Terbang Sultan Abdul Halim (AOR)</option>
+                <option>Lapangan Terbang Langkawi (LGK)</option>
+                <option>KLIA / KLIA2</option>
+                <option>Penang International Airport</option>
+              </select>
+            </div>
+            <div class="bw-field">
+              <i class="fa-solid fa-location-dot"></i>
+              <input type="text" id="bwApDest" placeholder="Hotel / Destination">
+            </div>
+          </div>
+          <div class="bw-row cols-4">
+            <div class="bw-field">
+              <i class="fa-solid fa-users"></i>
+              <select id="bwApPax">
+                <option value="" disabled selected>Passengers</option>
+                <option>1–2</option><option>3–4</option><option>5–6</option>
+                <option>7–8</option><option>9–10</option><option>11+</option>
+              </select>
+            </div>
+            <div class="bw-field">
+              <i class="fa-solid fa-suitcase-rolling"></i>
+              <select id="bwApBags">
+                <option value="" disabled selected>Luggage</option>
+                <option>1 beg</option><option>2 beg</option><option>3 beg</option><option>4+ beg</option>
+              </select>
+            </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-calendar"></i>
+              <input type="date" id="bwApDate" placeholder="Date">
+            </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-clock"></i>
+              <select id="bwApTime">
+                <option value="" disabled selected>Flight time</option>
+                <option>6:00 AM</option><option>7:00 AM</option><option>8:00 AM</option>
+                <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
+                <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
+                <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+                <option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option>
+              </select>
+            </div>
+          </div>
+          <button class="bw-cta" onclick="bwEnquireWA('airport')">
+            <i class="fa-brands fa-whatsapp"></i> Tanya Melalui WhatsApp
+          </button>
+        </div>
+
+      </div>
+    </section>
+
 
     <section id="about-section" class="py-24 px-12 lg:px-24 grid md:grid-cols-2 gap-16 items-center">
       <div>
@@ -2828,6 +3150,123 @@
           </div>
         </div>
 
+
+        <!-- ── Dynamic Cars Management ── -->
+        <div class="adm-section" id="adminCarsSection">
+          <div class="adm-section-hdr">
+            <h3><i class="fa-solid fa-circle-plus"></i> Kereta Dinamik</h3>
+            <button class="adm-hdr-btn refresh" onclick="adminToggleAddForm()" id="adminAddCarToggleBtn">
+              <i class="fa-solid fa-plus"></i> Tambah Kereta
+            </button>
+          </div>
+
+          <!-- Add / Edit Form -->
+          <div id="adminAddCarForm" style="display:none; padding: 24px; border-bottom: 1px solid rgba(255,255,255,.06)">
+            <input type="hidden" id="editCarId" value="">
+            <div class="adm-form-grid">
+
+              <div class="adm-form-field full">
+                <label class="adm-form-label">Nama Kereta</label>
+                <input class="adm-form-input" id="fCarName" placeholder="cth: Proton X50 1.5 Turbo 2023">
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Kategori</label>
+                <select class="adm-form-select" id="fCarCat">
+                  <option value="economy">Economy</option>
+                  <option value="sedan">Sedan</option>
+                  <option value="mpv">MPV</option>
+                  <option value="suv">SUV</option>
+                  <option value="van">Van</option>
+                  <option value="luxury">Luxury</option>
+                </select>
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Harga / Hari (RM) — 0 = Custom</label>
+                <input class="adm-form-input" id="fCarPrice" type="number" min="0" placeholder="150">
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Penumpang</label>
+                <input class="adm-form-input" id="fCarPax" type="number" min="1" max="20" placeholder="5">
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Transmisi</label>
+                <select class="adm-form-select" id="fCarTrans">
+                  <option value="Auto">Auto</option>
+                  <option value="Manual">Manual</option>
+                </select>
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Pintu</label>
+                <input class="adm-form-input" id="fCarDoors" type="number" min="2" max="6" placeholder="4">
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Bagasi</label>
+                <input class="adm-form-input" id="fCarBags" placeholder="cth: 2 Bags">
+              </div>
+
+              <div class="adm-form-field full">
+                <label class="adm-form-label">URL Gambar Kereta</label>
+                <input class="adm-form-input" id="fCarImg" placeholder="https://..." oninput="adminPreviewImg(this.value)">
+              </div>
+
+              <div class="adm-form-field full">
+                <label class="adm-form-label">Preview Gambar</label>
+                <div class="adm-img-preview" id="adminImgPreview">
+                  <span>Masukkan URL gambar untuk preview</span>
+                </div>
+              </div>
+
+              <div class="adm-form-field full">
+                <label class="adm-form-label">Deskripsi Ringkas</label>
+                <textarea class="adm-form-textarea" id="fCarDesc" placeholder="Kereta yang sesuai untuk perjalanan keluarga..."></textarea>
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Jumlah Unit</label>
+                <input class="adm-form-input" id="fCarTotal" type="number" min="0" placeholder="1">
+              </div>
+
+              <div class="adm-form-field">
+                <label class="adm-form-label">Unit Tersedia</label>
+                <input class="adm-form-input" id="fCarAvail" type="number" min="0" placeholder="1">
+              </div>
+
+            </div>
+
+            <div style="display:flex; gap:10px; margin-top:4px">
+              <button class="adm-form-submit" id="adminSaveCarBtn" onclick="adminSaveCar()">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span id="adminSaveCarLabel">Simpan Kereta</span>
+              </button>
+              <button class="adm-reset-btn" style="height:48px;padding:0 20px" onclick="adminCancelEdit()">
+                Batal
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic car list table -->
+          <div style="overflow-x:auto">
+            <table class="adm-table">
+              <thead>
+                <tr>
+                  <th>Gambar</th><th>Nama Kereta</th><th>Kategori</th>
+                  <th>Harga</th><th>Stok</th><th>Tindakan</th>
+                </tr>
+              </thead>
+              <tbody id="adminDynCarsBody">
+                <tr><td colspan="6" class="adm-dyn-empty">Tiada kereta dinamik lagi. Tambah kereta baru di atas.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
         <p style="text-align:center;font-size:12px;color:rgba(255,255,255,.2)">
           Akses admin melalui <strong style="color:rgba(255,255,255,.4)">#admin</strong> dalam URL
         </p>
@@ -3449,6 +3888,480 @@
 
   })();
 
+  </script>
+
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- DYNAMIC CARS JS                                          -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <script>
+  /* ════════════════════════════════════════════════
+   * DYNAMIC CARS JS — Admin + Listing page rendering
+   * ════════════════════════════════════════════════ */
+  (function(){
+    'use strict';
+
+    var WORKER = 'https://wispy-cloud-2e6f.1211111996.workers.dev';
+    var ADMIN_PW_FN = function(){ return window._JFZ_ADMIN_PW || ''; };
+
+    /* ─────────────────────────────
+     * LISTING PAGE: fetch & render
+     * ───────────────────────────── */
+    function renderDynamicCars(cars){
+      var grid = document.getElementById('listingGrid');
+      if (!grid) return;
+
+      // Remove old dynamic cards
+      grid.querySelectorAll('.dynamic-car').forEach(function(c){ c.remove(); });
+
+      if (!cars || !cars.length) return;
+
+      cars.forEach(function(car){
+        var priceHtml = car.price > 0
+          ? 'RM ' + car.price + '<span>/ day</span>'
+          : '<span style="color:#e4a15a;font-size:12px">Hubungi Kami</span>';
+
+        var carIdSlug = car.id;
+        var article = document.createElement('article');
+        article.className = 'rnx-card listing-card dynamic-car';
+        article.setAttribute('data-types', car.category || 'economy');
+        article.setAttribute('data-name', (car.name || '').toLowerCase());
+        article.innerHTML = [
+          '<img src="' + escAttr(car.imageUrl || '') + '" class="rnx-card-img" alt="' + escAttr(car.name || '') + '" onerror="this.src=\'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80\'">',
+          '<div class="rnx-card-body">',
+          '  <h3 class="rnx-card-name">' + esc(car.name || '') + '</h3>',
+          '  <ul class="rnx-specs">',
+          '    <li class="rnx-spec-row"><span class="rnx-spec-label"><i class="fa-solid fa-door-open"></i> Doors</span><span class="rnx-spec-val">' + (car.doors || 4) + '</span></li>',
+          '    <li class="rnx-spec-row"><span class="rnx-spec-label"><i class="fa-solid fa-user"></i> Passengers</span><span class="rnx-spec-val">' + (car.passengers || 5) + '</span></li>',
+          '    <li class="rnx-spec-row"><span class="rnx-spec-label"><i class="fa-solid fa-gear"></i> Transmission</span><span class="rnx-spec-val">' + esc(car.transmission || 'Auto') + '</span></li>',
+          '    <li class="rnx-spec-row"><span class="rnx-spec-label"><i class="fa-solid fa-suitcase"></i> Luggage</span><span class="rnx-spec-val">' + esc(car.luggage || '2 Bags') + '</span></li>',
+          '  </ul>',
+          '  <div class="rnx-card-foot">',
+          '    <p class="rnx-price">' + priceHtml + '</p>',
+          '    <a href="#dyn-' + escAttr(carIdSlug) + '" class="rnx-book-btn" data-dyn-id="' + escAttr(carIdSlug) + '" data-dyn-name="' + escAttr(car.name) + '" data-dyn-price="' + (car.price||0) + '">Book</a>',
+          '  </div>',
+          '</div>',
+        ].join('');
+        grid.appendChild(article);
+      });
+
+      // Re-run listing filter if active
+      if (typeof window.applyListingFilter === 'function') {
+        var hash = location.hash;
+        var type = hash.indexOf('listing-') !== -1 ? hash.slice(hash.indexOf('listing-')+8) : 'all';
+        window.applyListingFilter(type);
+      }
+
+      // Re-run inventory badges
+      if (typeof window.updateInventoryUI === 'function') window.updateInventoryUI();
+
+      // Wire book buttons for dynamic cars
+      document.querySelectorAll('.rnx-book-btn[data-dyn-id]').forEach(function(btn){
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          var id    = this.getAttribute('data-dyn-id');
+          var name  = this.getAttribute('data-dyn-name');
+          var price = parseInt(this.getAttribute('data-dyn-price')||'0', 10);
+          if (typeof openModal === 'function') openModal(id, name, price);
+        });
+      });
+    }
+
+    function fetchAndRenderCars(){
+      fetch(WORKER + '/cars')
+        .then(function(r){ return r.ok ? r.json() : []; })
+        .then(function(cars){ renderDynamicCars(cars); })
+        .catch(function(e){ console.warn('[JFZ] Dynamic cars fetch failed', e); });
+    }
+
+    // Fetch on load and when navigating to listing
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fetchAndRenderCars);
+    else fetchAndRenderCars();
+    window.addEventListener('hashchange', function(){
+      if (location.hash === '#listing' || location.hash.indexOf('#listing') === 0) fetchAndRenderCars();
+    });
+
+    /* ─────────────────────────────
+     * ADMIN: form helpers
+     * ───────────────────────────── */
+    window.adminToggleAddForm = function(){
+      var form = document.getElementById('adminAddCarForm');
+      var btn  = document.getElementById('adminAddCarToggleBtn');
+      var isOpen = form.style.display !== 'none';
+      form.style.display = isOpen ? 'none' : 'block';
+      btn.innerHTML = isOpen
+        ? '<i class="fa-solid fa-plus"></i> Tambah Kereta'
+        : '<i class="fa-solid fa-xmark"></i> Tutup';
+      if (!isOpen) adminResetCarForm();
+    };
+
+    window.adminPreviewImg = function(url){
+      var el = document.getElementById('adminImgPreview');
+      if (!el) return;
+      if (url && url.startsWith('http')) {
+        el.innerHTML = '<img src="' + escAttr(url) + '" onerror="this.parentElement.innerHTML=\'<span>Gambar tidak dapat dipaparkan</span>\'">';
+      } else {
+        el.innerHTML = '<span>Masukkan URL gambar untuk preview</span>';
+      }
+    };
+
+    function adminResetCarForm(){
+      ['fCarName','fCarPrice','fCarPax','fCarDoors','fCarBags','fCarImg','fCarDesc','fCarTotal','fCarAvail'].forEach(function(id){
+        var el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      var catEl = document.getElementById('fCarCat');
+      if (catEl) catEl.value = 'economy';
+      var transEl = document.getElementById('fCarTrans');
+      if (transEl) transEl.value = 'Auto';
+      var editId = document.getElementById('editCarId');
+      if (editId) editId.value = '';
+      var lbl = document.getElementById('adminSaveCarLabel');
+      if (lbl) lbl.textContent = 'Simpan Kereta';
+      adminPreviewImg('');
+    }
+
+    window.adminCancelEdit = function(){
+      adminResetCarForm();
+      var form = document.getElementById('adminAddCarForm');
+      var btn  = document.getElementById('adminAddCarToggleBtn');
+      if (form) form.style.display = 'none';
+      if (btn) btn.innerHTML = '<i class="fa-solid fa-plus"></i> Tambah Kereta';
+    };
+
+    /* ─────────────────────────────
+     * ADMIN: save car
+     * ───────────────────────────── */
+    window.adminSaveCar = function(){
+      var name  = (document.getElementById('fCarName')||{}).value.trim();
+      var price = parseInt((document.getElementById('fCarPrice')||{}).value||'0', 10);
+      var cat   = (document.getElementById('fCarCat')||{}).value || 'economy';
+      var pax   = parseInt((document.getElementById('fCarPax')||{}).value||'5', 10);
+      var trans = (document.getElementById('fCarTrans')||{}).value || 'Auto';
+      var doors = parseInt((document.getElementById('fCarDoors')||{}).value||'4', 10);
+      var bags  = (document.getElementById('fCarBags')||{}).value.trim() || '2 Bags';
+      var img   = (document.getElementById('fCarImg')||{}).value.trim();
+      var desc  = (document.getElementById('fCarDesc')||{}).value.trim();
+      var total = parseInt((document.getElementById('fCarTotal')||{}).value||'1', 10);
+      var avail = parseInt((document.getElementById('fCarAvail')||{}).value||'1', 10);
+      var editId = (document.getElementById('editCarId')||{}).value.trim();
+
+      if (!name) { alert('Sila masukkan nama kereta.'); return; }
+
+      var btn = document.getElementById('adminSaveCarBtn');
+      btn.disabled = true;
+
+      var payload = {
+        pw: ADMIN_PW_FN(),
+        name, price, category: cat,
+        passengers: pax, transmission: trans,
+        doors, luggage: bags, imageUrl: img, description: desc,
+        inventory: { total, available: avail },
+      };
+      if (editId) payload.id = editId;
+
+      fetch(WORKER + '/admin/cars', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        btn.disabled = false;
+        if (d.ok) {
+          showAdminToast('✅ Kereta ' + (editId ? 'dikemaskini' : 'ditambah') + '!');
+          adminCancelEdit();
+          adminRefreshCars();
+          fetchAndRenderCars();
+        } else {
+          alert('Ralat: ' + (d.error || 'unknown'));
+        }
+      })
+      .catch(function(){
+        btn.disabled = false;
+        alert('Ralat sambungan.');
+      });
+    };
+
+    /* ─────────────────────────────
+     * ADMIN: render dynamic cars table
+     * ───────────────────────────── */
+    function adminRenderDynCars(cars){
+      var tbody = document.getElementById('adminDynCarsBody');
+      if (!tbody) return;
+      if (!cars || !cars.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="adm-dyn-empty">Tiada kereta dinamik lagi. Tambah kereta baru di atas.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = cars.map(function(car){
+        var inv = car.inventory || {};
+        var avail = typeof inv.available === 'number' ? inv.available : '?';
+        var total = typeof inv.total === 'number' ? inv.total : '?';
+        var statusClass = avail > 0 ? 'adm-badge-ok' : 'adm-badge-full';
+        var imgHtml = car.imageUrl
+          ? '<img src="' + escAttr(car.imageUrl) + '" class="adm-car-thumb" onerror="this.style.display=\'none\'">'
+          : '<div class="adm-car-thumb" style="background:#222;border-radius:7px"></div>';
+        return [
+          '<tr>',
+          '<td>' + imgHtml + '</td>',
+          '<td class="adm-car-name">' + esc(car.name||'-') + '</td>',
+          '<td><span style="text-transform:capitalize;font-size:12px;color:rgba(255,255,255,.5)">' + esc(car.category||'-') + '</span></td>',
+          '<td style="font-weight:600;color:#e4a15a">' + (car.price > 0 ? 'RM '+car.price : 'Custom') + '</td>',
+          '<td><span class="adm-status-badge ' + statusClass + '">' + avail + ' / ' + total + '</span></td>',
+          '<td>',
+          '  <button class="adm-edit-btn" onclick="adminEditCar(\'' + escAttr(car.id) + '\')">Edit</button>',
+          '  <button class="adm-del-btn"  onclick="adminDeleteCar(\'' + escAttr(car.id) + '\',\'' + escAttr(car.name) + '\')">Padam</button>',
+          '</td>',
+          '</tr>',
+        ].join('');
+      }).join('');
+    }
+
+    function adminRefreshCars(){
+      fetch(WORKER + '/admin/data?pw=' + encodeURIComponent(ADMIN_PW_FN()))
+        .then(function(r){ return r.json(); })
+        .then(function(d){ adminRenderDynCars(d.dynamicCars || []); })
+        .catch(function(){ showAdminToast('⚠️ Gagal refresh kereta'); });
+    }
+    window.adminRefreshCars = adminRefreshCars;
+
+    /* ─────────────────────────────
+     * ADMIN: edit car
+     * ───────────────────────────── */
+    window.adminEditCar = function(carId){
+      fetch(WORKER + '/cars')
+        .then(function(r){ return r.json(); })
+        .then(function(cars){
+          var car = cars.find(function(c){ return c.id === carId; });
+          if (!car) { alert('Kereta tidak dijumpai.'); return; }
+
+          document.getElementById('editCarId').value   = car.id;
+          document.getElementById('fCarName').value    = car.name || '';
+          document.getElementById('fCarPrice').value   = car.price || 0;
+          document.getElementById('fCarCat').value     = car.category || 'economy';
+          document.getElementById('fCarPax').value     = car.passengers || 5;
+          document.getElementById('fCarTrans').value   = car.transmission || 'Auto';
+          document.getElementById('fCarDoors').value   = car.doors || 4;
+          document.getElementById('fCarBags').value    = car.luggage || '2 Bags';
+          document.getElementById('fCarImg').value     = car.imageUrl || '';
+          document.getElementById('fCarDesc').value    = car.description || '';
+          document.getElementById('fCarTotal').value   = (car.inventory||{}).total || 1;
+          document.getElementById('fCarAvail').value   = (car.inventory||{}).available || 1;
+          adminPreviewImg(car.imageUrl || '');
+
+          var lbl = document.getElementById('adminSaveCarLabel');
+          if (lbl) lbl.textContent = 'Kemaskini Kereta';
+
+          // Show form
+          var form = document.getElementById('adminAddCarForm');
+          var btn  = document.getElementById('adminAddCarToggleBtn');
+          if (form) form.style.display = 'block';
+          if (btn) btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Tutup';
+          form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    };
+
+    /* ─────────────────────────────
+     * ADMIN: delete car
+     * ───────────────────────────── */
+    window.adminDeleteCar = function(carId, carName){
+      if (!confirm('Padam "' + carName + '"? Tindakan ini tidak boleh dibatalkan.')) return;
+      fetch(WORKER + '/admin/cars/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pw: ADMIN_PW_FN(), id: carId }),
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        if (d.ok) {
+          showAdminToast('🗑️ Kereta dipadamkan!');
+          adminRefreshCars();
+          fetchAndRenderCars();
+        } else {
+          alert('Ralat: ' + (d.error||'unknown'));
+        }
+      })
+      .catch(function(){ alert('Ralat sambungan.'); });
+    };
+
+    /* ─────────────────────────────
+     * Hook into main adminRefresh
+     * ───────────────────────────── */
+    var _origRefresh = window.adminRefresh;
+    window.adminRefresh = function(){
+      if (typeof _origRefresh === 'function') _origRefresh();
+      adminRefreshCars();
+    };
+
+    /* ─────────────────────────────
+     * Hook into admin login success to also load dynamic cars
+     * ───────────────────────────── */
+    var _origRenderInv = window._adminOnLoginSuccess;
+    function hookDynCarsOnLogin(){
+      var dashboard = document.getElementById('adminDashboard');
+      if (!dashboard) return;
+      var observer = new MutationObserver(function(mutations){
+        mutations.forEach(function(m){
+          if (m.type === 'attributes' && m.attributeName === 'style') {
+            if (dashboard.style.display !== 'none' && dashboard.style.display !== '') {
+              adminRefreshCars();
+            }
+          }
+        });
+      });
+      observer.observe(dashboard, { attributes: true });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', hookDynCarsOnLogin);
+    else hookDynCarsOnLogin();
+
+    /* ─────────────────────────────
+     * Expose admin PW setter
+     * ───────────────────────────── */
+    // Called from admin login panel after successful login
+    var origLoginBtn;
+    function patchLoginBtn(){
+      var btn = document.getElementById('adminLoginBtn');
+      if (!btn || btn._jfzPatched) return;
+      btn._jfzPatched = true;
+      btn.addEventListener('click', function(){
+        var pw = (document.getElementById('adminPwInput')||{}).value;
+        if (pw) window._JFZ_ADMIN_PW = pw;
+      }, true); // capture phase, runs before main handler
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', patchLoginBtn);
+    else patchLoginBtn();
+
+    /* ─────────────────────────────
+     * Utils
+     * ───────────────────────────── */
+    function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function escAttr(s){ return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+    function showAdminToast(msg){
+      var t=document.getElementById('adminToast');
+      if(!t)return;
+      t.textContent=msg; t.classList.add('is-show');
+      setTimeout(function(){t.classList.remove('is-show');},2800);
+    }
+
+  })();
+
+  </script>
+
+  <!-- BOOKING WIDGET JS -->
+  <script>
+  (function(){
+    var WA = '60108118968';
+
+    /* ── Tab switching ── */
+    document.querySelectorAll('[data-bw-tab]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var tab = this.getAttribute('data-bw-tab');
+        document.querySelectorAll('[data-bw-tab]').forEach(function(b){ b.classList.remove('is-active'); b.setAttribute('aria-selected','false'); });
+        document.querySelectorAll('.bw-card').forEach(function(c){ c.classList.remove('is-active'); });
+        this.classList.add('is-active'); this.setAttribute('aria-selected','true');
+        var card = document.getElementById('bwCard-'+tab);
+        if (card) card.classList.add('is-active');
+      });
+    });
+
+    /* ── Sub-tab switching ── */
+    window.bwSetSub = function(el, tabId){
+      var parent = document.getElementById('bwCard-'+tabId);
+      if (!parent) return;
+      parent.querySelectorAll('.bw-subtab').forEach(function(b){ b.classList.remove('is-active'); });
+      el.classList.add('is-active');
+    };
+
+    /* ── Car Rental: navigate to listing with filter ── */
+    window.bwSearchRental = function(){
+      var cat     = (document.getElementById('bwRentalCat')||{}).value || 'all';
+      var pickup  = (document.getElementById('bwRentalPickup')||{}).value || '';
+      var dropoff = (document.getElementById('bwRentalDropoff')||{}).value || '';
+      var pickD   = (document.getElementById('bwRentalPickDate')||{}).value || '';
+      var retD    = (document.getElementById('bwRentalRetDate')||{}).value || '';
+
+      // Navigate to listing with category filter
+      var hash = cat && cat !== 'all' ? '#listing-' + cat : '#listing';
+      history.pushState(null, '', hash);
+
+      // Trigger router
+      window.dispatchEvent(new Event('hashchange'));
+
+      // Pre-fill any open modal (if user clicks Book right after)
+      window._bwPrefill = { pickupLoc: pickup, dropoffLoc: dropoff, pickupDate: pickD, returnDate: retD };
+
+      // Scroll to listing
+      setTimeout(function(){
+        var el = document.getElementById('view-listing');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    };
+
+    /* ── WhatsApp enquiry builder ── */
+    window.bwEnquireWA = function(type){
+      var msg = '';
+      var fmt = function(d){ if(!d)return'-'; var a=d.split('-'); return a[2]+'/'+a[1]+'/'+a[0]; };
+
+      if (type === 'chauffeur') {
+        var sub  = (document.querySelector('#bwCard-chauffeur .bw-subtab.is-active')||{}).textContent || '';
+        var pick = (document.getElementById('bwChPickup')||{}).value || '-';
+        var dest = (document.getElementById('bwChDest')||{}).value || '-';
+        var pax  = (document.getElementById('bwChPax')||{}).value || '-';
+        var date = fmt((document.getElementById('bwChDate')||{}).value);
+        var time = (document.getElementById('bwChTime')||{}).value || '-';
+        msg = 'Hi JFZ, saya ingin menempah perkhidmatan *Chauffeur*.'
+            + '\nJenis: ' + sub.trim()
+            + '\nPickup: ' + pick
+            + '\nDestinasi: ' + dest
+            + '\nPenumpang: ' + pax
+            + '\nTarikh: ' + date
+            + '\nMasa: ' + time
+            + '\n\nSila berikan maklumat lanjut dan harga. Terima kasih!';
+      }
+
+      if (type === 'airport') {
+        var sub2  = (document.querySelector('#bwCard-airport .bw-subtab.is-active')||{}).textContent || '';
+        var apt   = (document.getElementById('bwApAirport')||{}).value || '-';
+        var dest2 = (document.getElementById('bwApDest')||{}).value || '-';
+        var pax2  = (document.getElementById('bwApPax')||{}).value || '-';
+        var bags  = (document.getElementById('bwApBags')||{}).value || '-';
+        var date2 = fmt((document.getElementById('bwApDate')||{}).value);
+        var time2 = (document.getElementById('bwApTime')||{}).value || '-';
+        msg = 'Hi JFZ, saya ingin menempah perkhidmatan *Airport Transfer*.'
+            + '\nJenis: ' + sub2.trim()
+            + '\nLapangan Terbang: ' + apt
+            + '\nDestinasi: ' + dest2
+            + '\nPenumpang: ' + pax2
+            + '\nBagasi: ' + bags
+            + '\nTarikh: ' + date2
+            + '\nMasa Penerbangan: ' + time2
+            + '\n\nSila berikan maklumat lanjut dan harga. Terima kasih!';
+      }
+
+      window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+    };
+
+    /* ── Pre-fill booking modal from widget ── */
+    var _origOpenModal = null;
+    var checkInterval = setInterval(function(){
+      if (typeof openModal === 'function' && !_origOpenModal) {
+        _origOpenModal = openModal;
+        window.openModal = function(carId, carName, price, prefill){
+          var pf = window._bwPrefill || prefill || {};
+          _origOpenModal(carId, carName, price, pf);
+        };
+        clearInterval(checkInterval);
+      }
+    }, 300);
+
+    /* ── Set min date to today ── */
+    var today = new Date().toISOString().split('T')[0];
+    ['bwRentalPickDate','bwRentalRetDate','bwChDate','bwApDate'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.setAttribute('min', today);
+    });
+
+  })();
   </script>
 
 </body>
