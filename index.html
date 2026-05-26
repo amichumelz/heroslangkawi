@@ -1053,6 +1053,105 @@
     .adm-cat-pill i { font-size: 11px; }
 
   </style>
+  <!-- Flatpickr date picker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+  <style>
+    /* ── Flatpickr dark theme overrides (match JFZ) ── */
+    .flatpickr-calendar {
+      background: #1a1a1a !important;
+      border: 1px solid rgba(228,161,90,.25) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6) !important;
+      font-family: 'Outfit', sans-serif !important;
+    }
+    .flatpickr-months { background: #e4a15a; border-radius: 16px 16px 0 0; padding: 6px 0; }
+    .flatpickr-months .flatpickr-month { color: #111 !important; fill: #111 !important; }
+    .flatpickr-current-month .flatpickr-monthDropdown-months { background: #e4a15a; color: #111; font-weight: 700; }
+    .flatpickr-current-month input.cur-year { color: #111 !important; font-weight: 700 !important; }
+    .flatpickr-weekdays { background: #222; }
+    span.flatpickr-weekday { color: rgba(255,255,255,.4) !important; font-size: 11px; font-weight: 600; }
+    .flatpickr-day { color: rgba(255,255,255,.8) !important; border-radius: 8px !important; }
+    .flatpickr-day:hover { background: rgba(228,161,90,.2) !important; border-color: transparent !important; }
+    .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+      background: #e4a15a !important; border-color: #e4a15a !important; color: #111 !important; font-weight: 700 !important;
+    }
+    .flatpickr-day.inRange {
+      background: rgba(228,161,90,.15) !important; border-color: transparent !important; box-shadow: none !important;
+    }
+    .flatpickr-day.flatpickr-disabled, .flatpickr-day.flatpickr-disabled:hover {
+      background: rgba(239,68,68,.08) !important;
+      color: rgba(239,68,68,.5) !important;
+      text-decoration: line-through !important;
+      cursor: not-allowed !important;
+    }
+    .flatpickr-day.today { border-color: rgba(228,161,90,.4) !important; }
+    .flatpickr-day.today:not(.selected) { background: rgba(228,161,90,.08) !important; }
+    .flatpickr-prev-month, .flatpickr-next-month { fill: #111 !important; }
+    .flatpickr-prev-month:hover svg, .flatpickr-next-month:hover svg { fill: #111 !important; }
+    .numInputWrapper span { border-color: rgba(111,111,111,.3) !important; }
+    .numInputWrapper span:hover { background: rgba(228,161,90,.2) !important; }
+    /* Booked indicator dot */
+    .jfz-avail-loading {
+      text-align: center; font-size: 12px; color: rgba(228,161,90,.7);
+      padding: 8px 0; display: none;
+    }
+    .jfz-avail-loading.is-visible { display: block; }
+    .jfz-date-legend {
+      display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap;
+    }
+    .jfz-legend-item {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; color: rgba(255,255,255,.4);
+    }
+    .jfz-legend-dot {
+      width: 10px; height: 10px; border-radius: 3px;
+    }
+    .jfz-legend-dot.avail   { background: rgba(228,161,90,.5); }
+    .jfz-legend-dot.booked  { background: rgba(239,68,68,.4); }
+    .jfz-legend-dot.selected { background: #e4a15a; }
+
+    /* ── Availability filter banner ── */
+    #rnxAvailBanner {
+      display: none; align-items: center; justify-content: space-between;
+      gap: 12px; background: rgba(228,161,90,.1);
+      border: 1px solid rgba(228,161,90,.25); border-radius: 14px;
+      padding: 12px 18px; margin-bottom: 18px; flex-wrap: wrap;
+    }
+    #rnxAvailBanner.is-visible { display: flex; }
+    .rnx-avail-info { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,.7); }
+    .rnx-avail-info i { color: #e4a15a; }
+    .rnx-avail-info strong { color: #e4a15a; }
+    .rnx-avail-clear {
+      background: transparent; border: 1px solid rgba(255,255,255,.2);
+      color: rgba(255,255,255,.5); border-radius: 999px;
+      padding: 5px 14px; font-size: 12px; font-weight: 600;
+      cursor: pointer; font-family: 'Outfit', sans-serif;
+      transition: all .2s ease; white-space: nowrap;
+    }
+    .rnx-avail-clear:hover { color: #fff; border-color: rgba(255,255,255,.4); }
+    /* Unavailable card during date filter */
+    .rnx-card.date-unavail {
+      opacity: .35; pointer-events: none;
+      filter: grayscale(0.6);
+      position: relative;
+    }
+    .rnx-card.date-unavail::after {
+      content: var(--jfz-booked-label, 'Booked'); position: absolute;
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      background: rgba(239,68,68,.85); color: #fff;
+      font-weight: 700; font-size: 13px; border-radius: 8px;
+      padding: 6px 16px; pointer-events: none;
+    }
+    /* Searching spinner in button */
+    .bw-cta .bw-spinner {
+      width: 16px; height: 16px; border: 2px solid rgba(0,0,0,.2);
+      border-top-color: #111; border-radius: 50%;
+      animation: jfzSpin .7s linear infinite; display: none;
+    }
+    .bw-cta.is-loading .bw-spinner { display: block; }
+    .bw-cta.is-loading .bw-cta-icon, .bw-cta.is-loading .bw-cta-text { display: none; }
+
+  </style>
 </head>
 <body>
 
@@ -1181,19 +1280,19 @@
     <!-- ════════════════════════════════════════════ -->
     <section id="bookingWidget">
       <div class="bw-inner">
-        <p class="bw-eyebrow">✦ Book Now</p>
-        <h2 class="bw-title">Apa Perkhidmatan <span>Yang Anda Perlu?</span></h2>
+        <p class="bw-eyebrow" data-i18n="bw.eyebrow">✦ Book Now</p>
+        <h2 class="bw-title"><span data-i18n="bw.title">What Service</span> <span data-i18n="bw.titleSpan" style="color:#e4a15a">Do You Need?</span></h2>
 
         <!-- Service tabs -->
         <div class="bw-tabs" role="tablist">
           <button class="bw-tab is-active" data-bw-tab="rental" role="tab" aria-selected="true">
-            <i class="fa-solid fa-car"></i> Car Rental
+            <i class="fa-solid fa-car"></i> <span data-i18n="bw.tab.rental">Car Rental</span>
           </button>
           <button class="bw-tab" data-bw-tab="chauffeur" role="tab">
-            <i class="fa-solid fa-user-tie"></i> Chauffeur
+            <i class="fa-solid fa-user-tie"></i> <span data-i18n="bw.tab.chauffeur">Chauffeur</span>
           </button>
           <button class="bw-tab" data-bw-tab="airport" role="tab">
-            <i class="fa-solid fa-plane-departure"></i> Airport Transfer
+            <i class="fa-solid fa-plane-departure"></i> <span data-i18n="bw.tab.airport">Airport Transfer</span>
           </button>
         </div>
 
@@ -1203,7 +1302,7 @@
             <div class="bw-field">
               <i class="fa-solid fa-location-dot"></i>
               <select id="bwRentalPickup">
-                <option value="" disabled selected>Pickup Location</option>
+                <option value="" disabled selected data-i18n="bw.rental.pickup">Pickup Location</option>
                 <option>Alor Setar</option>
                 <option>Kuala Kedah</option>
                 <option>Jitra</option>
@@ -1215,7 +1314,7 @@
             <div class="bw-field">
               <i class="fa-solid fa-location-arrow"></i>
               <select id="bwRentalDropoff">
-                <option value="" disabled selected>Drop Off Location</option>
+                <option value="" disabled selected data-i18n="bw.rental.dropoff">Drop Off Location</option>
                 <option>Alor Setar</option>
                 <option>Kuala Kedah</option>
                 <option>Jitra</option>
@@ -1228,51 +1327,53 @@
           <div class="bw-row cols-3">
             <div class="bw-field">
               <i class="fa-regular fa-calendar"></i>
-              <input type="date" id="bwRentalPickDate" placeholder="Pickup Date">
+              <input type="text" id="bwRentalPickDate" placeholder="Pilih tarikh pickup" readonly style="cursor:pointer">
             </div>
             <div class="bw-field">
               <i class="fa-regular fa-calendar-check"></i>
-              <input type="date" id="bwRentalRetDate" placeholder="Return Date">
+              <input type="text" id="bwRentalRetDate" placeholder="Pilih tarikh return" readonly style="cursor:pointer">
             </div>
             <div class="bw-field">
               <i class="fa-solid fa-car-side"></i>
               <select id="bwRentalCat">
-                <option value="" disabled selected>Car Type</option>
-                <option value="economy">Economy</option>
-                <option value="sedan">Sedan</option>
-                <option value="mpv">MPV</option>
-                <option value="suv">SUV</option>
-                <option value="van">Van</option>
-                <option value="luxury">Luxury</option>
+                <option value="" disabled selected data-i18n="bw.rental.carType">Car Type</option>
+                <option value="economy" data-i18n="bw.cat.economy">Economy Cars</option>
+                <option value="sedan" data-i18n="bw.cat.sedan">Sedan</option>
+                <option value="mpv" data-i18n="bw.cat.mpv">MPV</option>
+                <option value="suv" data-i18n="bw.cat.suv">SUV</option>
+                <option value="van" data-i18n="bw.cat.van">Van</option>
+                <option value="luxury" data-i18n="bw.cat.luxury">Luxury</option>
               </select>
             </div>
           </div>
-          <button class="bw-cta" onclick="bwSearchRental()">
-            <i class="fa-solid fa-magnifying-glass"></i> Cari Kereta Tersedia
+          <button class="bw-cta" id="bwSearchBtn" onclick="bwSearchRental()">
+            <i class="fa-solid fa-magnifying-glass bw-cta-icon"></i>
+            <span class="bw-cta-text" data-i18n="bw.rental.search"> Find Available Cars</span>
+            <span class="bw-spinner"></span>
           </button>
         </div>
 
         <!-- ── TAB: Chauffeur ── -->
         <div class="bw-card" id="bwCard-chauffeur">
           <div class="bw-subtabs">
-            <button class="bw-subtab is-active" data-bw-sub="within" onclick="bwSetSub(this,'chauffeur')">Dalam Kedah</button>
-            <button class="bw-subtab" data-bw-sub="outside" onclick="bwSetSub(this,'chauffeur')">Luar Kedah</button>
+            <button class="bw-subtab is-active" data-bw-sub="within" onclick="bwSetSub(this,'chauffeur')" data-i18n="bw.ch.within">Within Kedah</button>
+            <button class="bw-subtab" data-bw-sub="outside" onclick="bwSetSub(this,'chauffeur')" data-i18n="bw.ch.outside">Outside Kedah</button>
           </div>
           <div class="bw-row cols-2">
             <div class="bw-field">
               <i class="fa-solid fa-location-dot"></i>
-              <input type="text" id="bwChPickup" placeholder="Pickup location">
+              <input type="text" id="bwChPickup" placeholder="Pickup location" data-i18n-placeholder="bw.ch.pickup">
             </div>
             <div class="bw-field">
               <i class="fa-solid fa-flag-checkered"></i>
-              <input type="text" id="bwChDest" placeholder="Destination">
+              <input type="text" id="bwChDest" placeholder="Destination" data-i18n-placeholder="bw.ch.dest">
             </div>
           </div>
           <div class="bw-row cols-3">
             <div class="bw-field">
               <i class="fa-solid fa-users"></i>
               <select id="bwChPax">
-                <option value="" disabled selected>Passengers</option>
+                <option value="" disabled selected data-i18n="bw.ch.pax">Passengers</option>
                 <option>1–2</option><option>3–4</option><option>5–6</option>
                 <option>7–8</option><option>9–10</option><option>11+</option>
               </select>
@@ -1284,7 +1385,7 @@
             <div class="bw-field">
               <i class="fa-regular fa-clock"></i>
               <select id="bwChTime">
-                <option value="" disabled selected>Start time</option>
+                <option value="" disabled selected data-i18n="bw.ch.time">Start time</option>
                 <option>6:00 AM</option><option>7:00 AM</option><option>8:00 AM</option>
                 <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
                 <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
@@ -1301,14 +1402,14 @@
         <!-- ── TAB: Airport Transfer ── -->
         <div class="bw-card" id="bwCard-airport">
           <div class="bw-subtabs">
-            <button class="bw-subtab is-active" data-bw-sub="arrival" onclick="bwSetSub(this,'airport')">🛬 Arrival</button>
-            <button class="bw-subtab" data-bw-sub="departure" onclick="bwSetSub(this,'airport')">🛫 Departure</button>
+            <button class="bw-subtab is-active" data-bw-sub="arrival" onclick="bwSetSub(this,'airport')" data-i18n="bw.ap.arrival">🛬 Arrival</button>
+            <button class="bw-subtab" data-bw-sub="departure" onclick="bwSetSub(this,'airport')" data-i18n="bw.ap.departure">🛫 Departure</button>
           </div>
           <div class="bw-row cols-2">
             <div class="bw-field">
               <i class="fa-solid fa-plane"></i>
               <select id="bwApAirport">
-                <option value="" disabled selected>Airport</option>
+                <option value="" disabled selected data-i18n="bw.ap.airport">Airport</option>
                 <option>Lapangan Terbang Sultan Abdul Halim (AOR)</option>
                 <option>Lapangan Terbang Langkawi (LGK)</option>
                 <option>KLIA / KLIA2</option>
@@ -1317,14 +1418,14 @@
             </div>
             <div class="bw-field">
               <i class="fa-solid fa-location-dot"></i>
-              <input type="text" id="bwApDest" placeholder="Hotel / Destination">
+              <input type="text" id="bwApDest" placeholder="Hotel / Destination" data-i18n-placeholder="bw.ap.dest">
             </div>
           </div>
           <div class="bw-row cols-4">
             <div class="bw-field">
               <i class="fa-solid fa-users"></i>
               <select id="bwApPax">
-                <option value="" disabled selected>Passengers</option>
+                <option value="" disabled selected data-i18n="bw.ap.pax">Passengers</option>
                 <option>1–2</option><option>3–4</option><option>5–6</option>
                 <option>7–8</option><option>9–10</option><option>11+</option>
               </select>
@@ -1332,7 +1433,7 @@
             <div class="bw-field">
               <i class="fa-solid fa-suitcase-rolling"></i>
               <select id="bwApBags">
-                <option value="" disabled selected>Luggage</option>
+                <option value="" disabled selected data-i18n="bw.ap.bags">Luggage</option>
                 <option>1 beg</option><option>2 beg</option><option>3 beg</option><option>4+ beg</option>
               </select>
             </div>
@@ -1343,7 +1444,7 @@
             <div class="bw-field">
               <i class="fa-regular fa-clock"></i>
               <select id="bwApTime">
-                <option value="" disabled selected>Flight time</option>
+                <option value="" disabled selected data-i18n="bw.ap.time">Flight time</option>
                 <option>6:00 AM</option><option>7:00 AM</option><option>8:00 AM</option>
                 <option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option>
                 <option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option>
@@ -1455,7 +1556,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-4 md:gap-6 w-full sm:w-auto justify-between sm:justify-end">
-                  <a id="fleetDetailsLink" href="#car-axia-style" class="fleet-gold-bg text-black px-6 py-2.5 rounded-full font-semibold text-xs hover:bg-white transition inline-flex items-center" data-i18n="fleet.details">Details</a>
+                  <button id="fleetDetailsLink" type="button" class="fleet-gold-bg text-black px-6 py-2.5 rounded-full font-semibold text-xs hover:bg-white transition inline-flex items-center gap-2"><i class="fa-solid fa-calendar-check text-[11px]"></i><span data-i18n="fleet.book">Tempah</span></button>
                   <div class="text-right shrink-0">
                     <p id="fleetPrice" class="text-[30px] md:text-[34px] font-semibold fleet-gold leading-none">RM 90</p>
                     <p class="text-[10px] text-gray-500 uppercase tracking-wider mt-1" data-i18n="listing.perDay">/ day</p>
@@ -1677,6 +1778,17 @@
 
       <!-- ── Main content ── -->
       <main>
+        <!-- Availability filter banner -->
+        <div id="rnxAvailBanner">
+          <div class="rnx-avail-info">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span id="rnxAvailMsg">Menunjukkan kereta tersedia</span>
+          </div>
+          <button class="rnx-avail-clear" onclick="bwClearDateFilter()">
+            <i class="fa-solid fa-xmark"></i> <span data-i18n="bw.avail.clear">Clear Date Filter</span>
+          </button>
+        </div>
+
         <!-- Result bar -->
         <div class="rnx-result-bar">
           <p id="rnxResultCount" class="rnx-result-count" data-i18n="listing.showingAll">Showing all results</p>
@@ -1703,7 +1815,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 90<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-axia-style" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-axia-style" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1721,7 +1833,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 100<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-axia-se" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-axia-se" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1739,7 +1851,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 120<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-bezza" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-bezza" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1757,7 +1869,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 230<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-veloz" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-veloz" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1776,7 +1888,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 550–650<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-hiace" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-hiace" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1794,7 +1906,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 650<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-mini" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-mini" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1812,7 +1924,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM —<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-vellfire" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-vellfire" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1830,7 +1942,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 250<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-hrv" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-hrv" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -1848,7 +1960,7 @@
               </ul>
               <div class="rnx-card-foot">
                 <p class="rnx-price">RM 300<span data-i18n="listing.perDay">/ day</span></p>
-                <a href="#car-crv" class="rnx-book-btn" data-i18n="listing.book">Book</a>
+                <a href="#car-crv" class="rnx-book-btn" data-i18n="listing.book"><i class="fa-solid fa-calendar-check" style="font-size:11px;margin-right:5px"></i>Tempah</a>
               </div>
             </div>
           </article>
@@ -2688,7 +2800,7 @@
         'svc.eyebrow':'What We Do','svc.title':'Our <em>Services</em>',
         'svc.corporate':'Corporate Car Rental','svc.driver':'Car Rental with Driver','svc.airport':'Airport Transfer',
         'cs.title':'Coming <span>Soon</span>','cs.desc':"We\'re working hard to bring you this service. Stay tuned — it\'ll be worth the wait!",'cs.close':'Got it',
-        'fleet.eyebrow':'SELECT YOUR CAR','fleet.title':'Our <span class=\"fleet-gold\">Car Fleet</span>','fleet.details':'Details',
+        'fleet.eyebrow':'SELECT YOUR CAR','fleet.title':'Our <span class=\"fleet-gold\">Car Fleet</span>','fleet.details':'Details','fleet.book':'Book Now',
         'carTypes.eyebrow':'Categories','carTypes.title':'Rental <em>Car Types</em>',
         'carTypes.economy':'Economy Cars','carTypes.mpv':'MPV','carTypes.van':'Van','carTypes.suv':'SUV','carTypes.luxury':'Luxury',
         'process.eyebrow':'STEPS','process.title':'Car Rental <span class=\"text-gold\">Process</span>',
@@ -2708,11 +2820,52 @@
         'listing.pickupLoc':'Pickup Locations','listing.dropoffLoc':'Dropoff Locations',
         'listing.backHome':'Back to Home','listing.showingAll':'Showing all results','listing.showingCount':'Showing {n} results',
         'listing.sortDefault':'Default sorting','listing.sortLowHigh':'Price: Low to High','listing.sortHighLow':'Price: High to Low',
-        'listing.book':'Book','listing.perDay':'/ day',
+        'listing.book':'Book Now','listing.perDay':'/ day',
         'spec.doors':'Doors','spec.passengers':'Passengers','spec.transmission':'Transmission','spec.luggage':'Luggage','spec.engine':'Engine','spec.val1bag':'1 Bag','spec.val2bags':'2 Bags','spec.val3bags':'3 Bags','spec.val4bags':'4 Bags','spec.valSpacious':'Spacious',
         'detail.generalInfo':'General Information','detail.back':'Back',
         'detail.bullet1':'24/7 roadside assistance in Kedah','detail.bullet2':'Free cancellation & return support','detail.bullet3':'Pay on pickup available',
         'detail.imageGallery':'Image Gallery','detail.rentPerDay':'/ rent per day',
+
+        'bw.eyebrow':'✦ Book Now','bw.title':'What Service','bw.titleSpan':'Do You Need?',
+        'bw.tab.rental':'Car Rental','bw.tab.chauffeur':'Chauffeur','bw.tab.airport':'Airport Transfer',
+        'bw.rental.pickup':'Pickup Location','bw.rental.dropoff':'Drop Off Location',
+        'bw.rental.carType':'Car Type','bw.rental.pickDate':'Pickup Date','bw.rental.retDate':'Return Date',
+        'bw.rental.search':'Find Available Cars',
+        'bw.ch.within':'Within Kedah','bw.ch.outside':'Outside Kedah',
+        'bw.ch.pickup':'Pickup location','bw.ch.dest':'Destination',
+        'bw.ch.pax':'Passengers','bw.ch.time':'Start time','bw.ch.enquire':'Enquire via WhatsApp',
+        'bw.ap.arrival':'🛬 Arrival','bw.ap.departure':'🛫 Departure',
+        'bw.ap.airport':'Airport','bw.ap.dest':'Hotel / Destination',
+        'bw.ap.pax':'Passengers','bw.ap.bags':'Luggage','bw.ap.time':'Flight time',
+        'bw.ap.enquire':'Enquire via WhatsApp',
+        'bw.cat.economy':'Economy Cars','bw.cat.sedan':'Sedan','bw.cat.mpv':'MPV',
+        'bw.cat.suv':'SUV','bw.cat.van':'Van','bw.cat.luxury':'Luxury',
+        'bw.avail.clear':'Clear Date Filter','bw.avail.units':' units available','modal.wa.q':'Questions?',
+        'listing.booked':'Booked',
+        'modal.checking':'Checking date availability...','modal.pickDate':'Pickup Date',
+        'modal.retDate':'Return Date','modal.pickupLabel':'Pickup','modal.dropoffLabel':'Drop Off',
+        'modal.customNote':'Price for this car is set on request. We will contact you via WhatsApp to confirm.',
+        'modal.step1':'1 · Booking','modal.step2':'2 · Details',
+        'modal.rateLbl':'Rental rate','modal.daysLbl':'Number of days','modal.totalLbl':'Total',
+        'modal.next':'Next: Personal Details →','modal.wa':'Contact WhatsApp',
+        'modal.nameLbl':'Full Name (as per IC)','modal.emailLbl':'Email',
+        'modal.phoneLbl':'Phone Number','modal.icLbl':'IC / Passport No.',
+        'modal.carLbl':'Car','modal.dateLbl':'Date','modal.locLbl':'Location',
+        'modal.totalPayLbl':'Total Payment','modal.payBtn':'Proceed to Payment',
+        'modal.trouble':'Problem?','modal.contact':'Contact us',
+        'modal.chipBadge':'Secure payment via CHIP · FPX / Card / eWallet',
+        'modal.carCategory':'Booking','modal.perDay':'/ day',
+        'success.title':'Payment Successful! 🎉','success.subtitle':'Your booking is confirmed. Check your email for receipt.',
+        'success.next':'Next Steps','success.email':'Check your email — Payment receipt and booking confirmation has been sent.',
+        'success.wa2':'JFZ team will contact you via WhatsApp with pickup details.',
+        'success.ic':'Prepare your IC / Driving License on pickup day.',
+        'success.waBtn':'Contact JFZ on WhatsApp','success.homeBtn':'Back to Home',
+        'cancel.title':'Payment Unsuccessful','cancel.subtitle':'Don\'t worry — your booking has not been processed. Try again.',
+        'cancel.noCharge':'Your money was not charged. If there is a temporary hold, it will be returned within 1–7 working days.',
+        'cancel.reasons':'Common Reasons','cancel.r1':'Incorrect card details or expired card',
+        'cancel.r2':'Internet connection issue during payment','cancel.r3':'Daily card limit or insufficient balance',
+        'cancel.r4':'Session timed out — booking exceeded time limit',
+        'cancel.retry':'Try Again','cancel.waBtn':'Contact Us via WhatsApp','cancel.homeBtn':'Back to Home',
         'booking.pickupLoc':'Pick Up Location','booking.dropoffLoc':'Drop Off Location',
         'booking.pickupDate':'Pick Up Date','booking.returnDate':'Return Date',
         'booking.sendWA':'Send to WhatsApp','booking.alertDates':'Please select both Pick Up Date and Return Date before continuing.','desc.mini':'The iconic Mini Cooper S 2.0 Turbo Convertible 2023 — a stylish, fun-to-drive convertible perfect for weekend getaways and special occasions around Kedah.','desc.axiaStyle':'Perodua Axia 1.0 Style 2020 — a fuel-efficient economy pick perfect for daily drives around Kedah. Comfortable, easy to drive, and easy to park.','desc.axiaSe':'The latest generation New Perodua Axia SE — packed with updated safety features, a more efficient engine, and a modern interior. Great for both city drives and outstation trips.','desc.bezza':'New Perodua Bezza X — a stylish compact sedan with a more powerful 1.3L engine. Spacious boot and a modern infotainment system make it a top choice for family trips around Kedah.','desc.veloz':'Toyota Veloz 1.5 2024 — a stylish 7-seater crossover MPV. Perfect for family outings, road trips to Langkawi, or business needs across Kedah. Smooth 1.5L CVT engine for a relaxed ride.','desc.hrv':'Honda HRV 1.5 Hybrid 2022 — a stylish compact SUV with e:HEV hybrid efficiency. Ideal for city drives, weekend trips, and comfortable family travel across Kedah and beyond.','desc.crv':'Honda CRV 1.5 Turbo Black Edition 2022 — a bold black SUV with VTEC turbo power and premium Black Edition styling. Spacious cabin for family trips and comfortable long drives across Kedah.','desc.hiace':'The latest Toyota HiAce — a spacious and comfortable 12-passenger van. Ideal for group trips, tours, events, or staff transport. Large luggage space and powerful air conditioning throughout.','desc.vellfire':'The Toyota Vellfire 2.5 with premium pilot seats — the ultimate luxury van for VIP travel, family trips, or corporate transfers across Kedah. Spacious, quiet cabin with first-class seating for 7 passengers.','desc.staria':'The Hyundai Staria 2.2T — a bold, futuristic 10-seater luxury van. Ideal for group travel, corporate events, or family gatherings. Powerful diesel engine, ultra-modern interior, and premium ride comfort throughout.',
@@ -2729,7 +2882,7 @@
         'svc.eyebrow':'Apa Yang Kami Buat','svc.title':'Perkhidmatan <em>Kami</em>',
         'svc.corporate':'Sewa Kereta Korporat','svc.driver':'Sewa Kereta dengan Pemandu','svc.airport':'Pemindahan Lapangan Terbang',
         'cs.title':'Akan <span>Datang</span>','cs.desc':"Kami sedang berusaha keras untuk membawa perkhidmatan ini. Nantikan — ia akan berbaloi!",'cs.close':'Faham',
-        'fleet.eyebrow':'PILIH KERETA ANDA','fleet.title':'Koleksi <span class=\"fleet-gold\">Kereta Kami</span>','fleet.details':'Butiran',
+        'fleet.eyebrow':'PILIH KERETA ANDA','fleet.title':'Koleksi <span class=\"fleet-gold\">Kereta Kami</span>','fleet.details':'Butiran','fleet.book':'Tempah',
         'carTypes.eyebrow':'Kategori','carTypes.title':'Jenis <em>Kereta Sewa</em>',
         'carTypes.economy':'Kereta Ekonomi','carTypes.mpv':'MPV','carTypes.van':'Van','carTypes.suv':'SUV','carTypes.luxury':'Mewah',
         'process.eyebrow':'LANGKAH','process.title':'Proses <span class=\"text-gold\">Sewa Kereta</span>',
@@ -2754,6 +2907,47 @@
         'detail.generalInfo':'Maklumat Am','detail.back':'Kembali',
         'detail.bullet1':'Bantuan 24/7 di tepi jalan di Kedah','detail.bullet2':'Pembatalan percuma & sokongan pemulangan','detail.bullet3':'Bayar semasa ambil tersedia',
         'detail.imageGallery':'Galeri Gambar','detail.rentPerDay':'/ sewa sehari',
+
+        'bw.eyebrow':'✦ Tempah Sekarang','bw.title':'Perkhidmatan Apa','bw.titleSpan':'Yang Anda Perlukan?',
+        'bw.tab.rental':'Sewa Kereta','bw.tab.chauffeur':'Pemandu Peribadi','bw.tab.airport':'Pemindahan Lapangan Terbang',
+        'bw.rental.pickup':'Lokasi Ambil','bw.rental.dropoff':'Lokasi Hantar',
+        'bw.rental.carType':'Jenis Kereta','bw.rental.pickDate':'Tarikh Ambil','bw.rental.retDate':'Tarikh Pulang',
+        'bw.rental.search':'Cari Kereta Tersedia',
+        'bw.ch.within':'Dalam Kedah','bw.ch.outside':'Luar Kedah',
+        'bw.ch.pickup':'Lokasi ambil','bw.ch.dest':'Destinasi',
+        'bw.ch.pax':'Penumpang','bw.ch.time':'Masa mula','bw.ch.enquire':'Tanya Melalui WhatsApp',
+        'bw.ap.arrival':'🛬 Ketibaan','bw.ap.departure':'🛫 Berlepas',
+        'bw.ap.airport':'Lapangan Terbang','bw.ap.dest':'Hotel / Destinasi',
+        'bw.ap.pax':'Penumpang','bw.ap.bags':'Bagasi','bw.ap.time':'Masa penerbangan',
+        'bw.ap.enquire':'Tanya Melalui WhatsApp',
+        'bw.cat.economy':'Kereta Ekonomi','bw.cat.sedan':'Sedan','bw.cat.mpv':'MPV',
+        'bw.cat.suv':'SUV','bw.cat.van':'Van','bw.cat.luxury':'Mewah',
+        'bw.avail.clear':'Buang Filter Tarikh','bw.avail.units':' unit tersedia','modal.wa.q':'Ada pertanyaan?',
+        'listing.booked':'Ditempah',
+        'modal.checking':'Menyemak ketersediaan tarikh...','modal.pickDate':'Tarikh Pickup',
+        'modal.retDate':'Tarikh Return','modal.pickupLabel':'Pickup','modal.dropoffLabel':'Drop Off',
+        'modal.customNote':'Harga untuk kereta ini ditetapkan secara custom. Kami akan hubungi anda melalui WhatsApp untuk sahkan harga.',
+        'modal.step1':'1 · Tempahan','modal.step2':'2 · Maklumat',
+        'modal.rateLbl':'Kadar sewa','modal.daysLbl':'Bilangan hari','modal.totalLbl':'Jumlah',
+        'modal.next':'Seterusnya: Maklumat Peribadi →','modal.wa':'Hubungi WhatsApp',
+        'modal.nameLbl':'Nama Penuh (ikut IC)','modal.emailLbl':'E-mel',
+        'modal.phoneLbl':'No. Telefon','modal.icLbl':'No. IC / Passport',
+        'modal.carLbl':'Kereta','modal.dateLbl':'Tarikh','modal.locLbl':'Lokasi',
+        'modal.totalPayLbl':'Jumlah Bayaran','modal.payBtn':'Teruskan ke Pembayaran',
+        'modal.trouble':'Masalah?','modal.contact':'Hubungi kami',
+        'modal.chipBadge':'Pembayaran selamat melalui CHIP · FPX / Kad / eWallet',
+        'modal.carCategory':'Tempahan','modal.perDay':'/ hari',
+        'success.title':'Pembayaran Berjaya! 🎉','success.subtitle':'Tempahan anda telah disahkan. Semak e-mel untuk resit.',
+        'success.next':'Langkah Seterusnya','success.email':'Semak e-mel anda — Resit pembayaran dan pengesahan tempahan telah dihantar.',
+        'success.wa2':'Pasukan JFZ akan menghubungi anda melalui WhatsApp untuk butiran pengambilan kereta.',
+        'success.ic':'Sedia IC / Lesen memandu pada hari pengambilan kereta.',
+        'success.waBtn':'Hubungi JFZ di WhatsApp','success.homeBtn':'Kembali ke Laman Utama',
+        'cancel.title':'Pembayaran Tidak Berjaya','cancel.subtitle':'Jangan risau — tempahan anda belum diproses. Cuba semula.',
+        'cancel.noCharge':'Wang anda tidak ditolak. Sekiranya terdapat penahanan sementara, ia akan dikembalikan dalam 1–7 hari bekerja.',
+        'cancel.reasons':'Punca Biasa','cancel.r1':'Butiran kad tidak tepat atau tamat tempoh',
+        'cancel.r2':'Gangguan sambungan internet semasa proses bayaran','cancel.r3':'Had harian kad atau baki tidak mencukupi',
+        'cancel.r4':'Sesi tamat masa — tempahan melebihi had masa',
+        'cancel.retry':'Cuba Semula','cancel.waBtn':'Hubungi Kami via WhatsApp','cancel.homeBtn':'Kembali ke Laman Utama',
         'booking.pickupLoc':'Lokasi Ambil','booking.dropoffLoc':'Lokasi Hantar',
         'booking.pickupDate':'Tarikh Ambil','booking.returnDate':'Tarikh Pulang',
         'booking.sendWA':'Hantar ke WhatsApp','booking.alertDates':'Sila pilih Tarikh Ambil dan Tarikh Pulang sebelum meneruskan.','desc.mini':'Mini Cooper S 2.0 Turbo Convertible 2023 yang ikonik — kereta bumbung terbuka yang bergaya dan seronok dipandu, sesuai untuk percutian hujung minggu dan majlis istimewa di sekitar Kedah.','desc.axiaStyle':'Perodua Axia 1.0 Style 2020 — pilihan ekonomi yang jimat bahan api, sesuai untuk perjalanan harian di sekitar Kedah. Selesa, mudah dipandu dan mudah diparking.','desc.axiaSe':'Perodua Axia SE generasi terbaru — dilengkapi ciri keselamatan terkini, enjin yang lebih cekap dan dalaman moden. Sesuai untuk perjalanan bandar mahupun luar bandar.','desc.bezza':'Perodua Bezza X baharu — sedan kompak bergaya dengan enjin 1.3L yang lebih berkuasa. But yang luas dan sistem infotainment moden menjadikannya pilihan terbaik untuk perjalanan keluarga di sekitar Kedah.','desc.veloz':'Toyota Veloz 1.5 2024 — MPV crossover 7-tempat duduk yang bergaya. Sesuai untuk aktiviti keluarga, perjalanan ke Langkawi atau keperluan perniagaan di seluruh Kedah. Enjin CVT 1.5L yang lembut untuk perjalanan yang selesa.','desc.hrv':'Honda HRV 1.5 Hybrid 2022 — SUV kompak bergaya dengan kecekapan hibrid e:HEV. Sesuai untuk perjalanan bandar, percutian hujung minggu dan perjalanan keluarga yang selesa di Kedah dan sekitarnya.','desc.crv':'Honda CRV 1.5 Turbo Black Edition 2022 — SUV hitam yang gagah dengan kuasa turbo VTEC dan gaya Black Edition premium. Kabin yang luas untuk perjalanan keluarga dan pemanduan jarak jauh yang selesa di Kedah.','desc.hiace':'Toyota HiAce terkini — van yang luas dan selesa untuk 12 penumpang. Sesuai untuk perjalanan berkumpulan, pelancongan, acara atau pengangkutan kakitangan. Ruang bagasi yang besar dan pendingin hawa yang kuat sepanjang perjalanan.','desc.vellfire':'Toyota Vellfire 2.5 dengan tempat duduk pilot premium — van mewah terbaik untuk perjalanan VIP, lawatan keluarga atau pemindahan korporat di seluruh Kedah. Kabin yang luas dan senyap dengan tempat duduk kelas pertama untuk 7 penumpang.','desc.staria':'Hyundai Staria 2.2T — van mewah 10-tempat duduk yang berani dan futuristik. Sesuai untuk perjalanan berkumpulan, acara korporat atau perkumpulan keluarga. Enjin diesel berkuasa, dalaman ultra-moden dan keselesaan perjalanan premium.',
@@ -2831,7 +3025,14 @@
       if (transmission) transmission.innerHTML = '<i class="fa-solid fa-gear fleet-gold text-[13px]"></i> ' + getTransLabel(center.transmissionKey);
       if (bags) bags.innerHTML = '<i class="fa-solid fa-suitcase fleet-gold text-[13px]"></i> ' + getBagsLabel(center);
       if (price) price.textContent = center.price;
-      if (detailsLink) detailsLink.setAttribute('href', center.details);
+      if (detailsLink) {
+        detailsLink.onclick = function() {
+          if (typeof openModal !== 'function') return;
+          var priceNum = parseInt((center.price||'').replace(/[^0-9]/g,''), 10) || 0;
+          var carId    = (center.details||'').replace('#car-','');
+          openModal(carId, center.name, priceNum);
+        };
+      }
       mobileDots.forEach(function (dot, idx) { dot.classList.toggle('is-active', idx === active); });
     };
     var changeFleet = function (dir) { if (animating) return; animating = true; var mc = dir === 'next' ? 'fleet-motion-next' : 'fleet-motion-prev'; row.classList.add(mc); window.setTimeout(function () { active = dir === 'next' ? mod(active + 1) : mod(active - 1); renderFleet(); row.classList.remove(mc); row.classList.add('fleet-refresh'); window.setTimeout(function () { row.classList.remove('fleet-refresh'); animating = false; }, 230); }, 220); };
@@ -3035,22 +3236,22 @@
       <div class="jfz-page-card success-card">
         <div class="jfz-page-header success-hdr">
           <div class="jfz-status-icon"><i class="fa-solid fa-check"></i></div>
-          <h1>Pembayaran Berjaya! 🎉</h1>
-          <p>Tempahan anda telah disahkan. Semak e-mel untuk resit.</p>
+          <h1 data-i18n="success.title">Payment Successful! 🎉</h1>
+          <p data-i18n="success.subtitle">Your booking is confirmed. Check your email for receipt.</p>
         </div>
         <div class="jfz-page-body">
-          <p class="jfz-sec-label">Ringkasan Tempahan</p>
+          <p class="jfz-sec-label" data-i18n="modal.carLbl">Car</p>
           <div id="jfzSuccessDetails"><p style="font-size:13px;color:rgba(255,255,255,.4)">Memuatkan maklumat…</p></div>
           <div class="jfz-total-box" id="jfzSuccessTotalBox" style="display:none">
             <span class="jfz-total-lbl">Jumlah Dibayar</span>
             <span class="jfz-total-val" id="jfzSuccessTotal">—</span>
           </div>
           <hr class="jfz-page-divider">
-          <p class="jfz-sec-label">Langkah Seterusnya</p>
+          <p class="jfz-sec-label" data-i18n="success.next">Next Steps</p>
           <div class="jfz-next-steps">
-            <div class="jfz-next-step"><i class="fa-solid fa-envelope"></i><p><strong>Semak e-mel anda</strong> — Resit pembayaran dan pengesahan tempahan telah dihantar.</p></div>
-            <div class="jfz-next-step"><i class="fa-brands fa-whatsapp"></i><p><strong>Pasukan JFZ akan menghubungi anda</strong> melalui WhatsApp untuk butiran pengambilan kereta.</p></div>
-            <div class="jfz-next-step"><i class="fa-solid fa-id-card"></i><p><strong>Sedia IC / Lesen memandu</strong> pada hari pengambilan kereta.</p></div>
+            <div class="jfz-next-step"><i class="fa-solid fa-envelope"></i><p><span data-i18n="success.email">Check your email — Payment receipt and booking confirmation has been sent.</span></p></div>
+            <div class="jfz-next-step"><i class="fa-brands fa-whatsapp"></i><p><span data-i18n="success.wa2">JFZ team will contact you via WhatsApp with pickup details.</span></p></div>
+            <div class="jfz-next-step"><i class="fa-solid fa-id-card"></i><p><span data-i18n="success.ic">Prepare your IC / Driving License on pickup day.</span></p></div>
           </div>
           <a href="https://wa.me/60108118968?text=Hi%20JFZ%2C%20saya%20baru%20sahaja%20membuat%20pembayaran%20tempahan%20kereta." target="_blank" rel="noopener" class="jfz-pg-btn green"><i class="fa-brands fa-whatsapp"></i> Hubungi JFZ di WhatsApp</a>
           <a href="#home" class="jfz-pg-btn outline"><i class="fa-solid fa-arrow-left"></i> Kembali ke Laman Utama</a>
@@ -3069,17 +3270,17 @@
       <div class="jfz-page-card cancel-card">
         <div class="jfz-page-header cancel-hdr">
           <div class="jfz-status-icon"><i class="fa-solid fa-xmark"></i></div>
-          <h1>Pembayaran Tidak Berjaya</h1>
-          <p>Jangan risau — tempahan anda belum diproses. Cuba semula.</p>
+          <h1 data-i18n="cancel.title">Payment Unsuccessful</h1>
+          <p data-i18n="cancel.subtitle">Don't worry — your booking has not been processed. Try again.</p>
         </div>
         <div class="jfz-page-body">
-          <div class="jfz-info-box"><p>Wang anda <strong style="color:#fff">tidak ditolak</strong>. Sekiranya terdapat penahanan sementara, ia akan dikembalikan dalam 1–7 hari bekerja oleh bank anda.</p></div>
-          <p class="jfz-sec-label">Punca Biasa</p>
+          <div class="jfz-info-box"><p data-i18n="cancel.noCharge">Your money was <strong style="color:#fff">not charged</strong>. Sekiranya terdapat penahanan sementara, ia akan dikembalikan dalam 1–7 hari bekerja oleh bank anda.</p></div>
+          <p class="jfz-sec-label" data-i18n="cancel.reasons">Common Reasons</p>
           <div class="jfz-reasons">
-            <div class="jfz-reason"><i class="fa-solid fa-credit-card"></i><p>Butiran kad tidak tepat atau tamat tempoh</p></div>
-            <div class="jfz-reason"><i class="fa-solid fa-wifi"></i><p>Gangguan sambungan internet semasa proses bayaran</p></div>
-            <div class="jfz-reason"><i class="fa-solid fa-ban"></i><p>Had harian kad atau baki tidak mencukupi</p></div>
-            <div class="jfz-reason"><i class="fa-solid fa-clock"></i><p>Sesi tamat masa — tempahan melebihi had masa</p></div>
+            <div class="jfz-reason"><i class="fa-solid fa-credit-card"></i><p data-i18n="cancel.r1">Incorrect card details or expired card</p></div>
+            <div class="jfz-reason"><i class="fa-solid fa-wifi"></i><p data-i18n="cancel.r2">Internet connection issue during payment</p></div>
+            <div class="jfz-reason"><i class="fa-solid fa-ban"></i><p data-i18n="cancel.r3">Daily card limit or insufficient balance</p></div>
+            <div class="jfz-reason"><i class="fa-solid fa-clock"></i><p data-i18n="cancel.r4">Session timed out — booking exceeded time limit</p></div>
           </div>
           <hr class="jfz-page-divider">
           <button onclick="window.history.back()" class="jfz-pg-btn gold"><i class="fa-solid fa-rotate-left"></i> Cuba Semula</button>
@@ -3316,7 +3517,7 @@
     <div class="jfz-modal">
       <div class="jfz-modal-header">
         <div>
-          <p class="car-cat">Tempahan Kereta</p>
+          <p class="car-cat" data-i18n="modal.carCategory">Booking</p>
           <h2 class="car-name" id="jfzCarName">—</h2>
           <p class="car-price"><strong id="jfzPriceLabel">—</strong> / hari</p>
         <div class="jfz-modal-avail" id="jfzModalAvail" style="display:none">—</div>
@@ -3324,12 +3525,12 @@
         <button class="jfz-modal-close" id="jfzClose" aria-label="Tutup">&#x2715;</button>
       </div>
       <div class="jfz-steps">
-        <div class="jfz-step-tab is-active" id="jfzTab1">1 · Tempahan</div>
-        <div class="jfz-step-tab" id="jfzTab2">2 · Maklumat</div>
+        <div class="jfz-step-tab is-active" id="jfzTab1" data-i18n="modal.step1">1 · Booking</div>
+        <div class="jfz-step-tab" id="jfzTab2" data-i18n="modal.step2">2 · Details</div>
       </div>
       <!-- Step 1 -->
       <div class="jfz-modal-body" id="jfzStep1">
-        <div id="jfzCustomNote" class="jfz-custom-note">Harga untuk kereta ini ditetapkan secara custom. Kami akan hubungi anda melalui WhatsApp untuk sahkan harga.</div>
+        <div id="jfzCustomNote" class="jfz-custom-note" data-i18n="modal.customNote">Price for this car is set on request. We will contact you via WhatsApp to confirm.</div>
         <div class="jfz-row">
           <div class="jfz-field">
             <label class="jfz-label" for="jfzPickLoc">Pickup</label>
@@ -3344,54 +3545,64 @@
             </select>
           </div>
         </div>
+        <div class="jfz-avail-loading" id="jfzAvailLoading">
+          <i class="fa-solid fa-circle-notch fa-spin"></i> <span data-i18n="modal.checking">Checking date availability...</span>
+        </div>
         <div class="jfz-row">
           <div class="jfz-field">
-            <label class="jfz-label" for="jfzPickDate">Tarikh Pickup</label>
-            <input type="date" class="jfz-input" id="jfzPickDate">
+            <label class="jfz-label" for="jfzPickDate" data-i18n="modal.pickDate"><i class="fa-regular fa-calendar" style="color:#e4a15a;margin-right:4px"></i>Pickup Date</label>
+            <input type="text" class="jfz-input" id="jfzPickDate" placeholder="Pilih tarikh pickup" readonly style="cursor:pointer">
           </div>
           <div class="jfz-field">
-            <label class="jfz-label" for="jfzRetDate">Tarikh Return</label>
-            <input type="date" class="jfz-input" id="jfzRetDate">
+            <label class="jfz-label" for="jfzRetDate" data-i18n="modal.retDate"><i class="fa-regular fa-calendar-check" style="color:#e4a15a;margin-right:4px"></i>Return Date</label>
+            <input type="text" class="jfz-input" id="jfzRetDate" placeholder="Pilih tarikh return" readonly style="cursor:pointer">
           </div>
         </div>
+        <div class="jfz-date-legend">
+          <div class="jfz-legend-item"><div class="jfz-legend-dot selected"></div> Tarikh dipilih</div>
+          <div class="jfz-legend-item"><div class="jfz-legend-dot avail"></div> Dalam tempahan</div>
+          <div class="jfz-legend-item"><div class="jfz-legend-dot booked"></div> Dah ditempah</div>
+        </div>
         <div class="jfz-summary">
-          <div class="jfz-sum-row"><span class="jfz-sum-lbl">Kadar sewa</span><span class="jfz-sum-val" id="jfzRateDisplay">—</span></div>
-          <div class="jfz-sum-row"><span class="jfz-sum-lbl">Bilangan hari</span><span class="jfz-sum-val"><span id="jfzDays">0</span> hari</span></div>
+          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.rateLbl">Rental rate</span><span class="jfz-sum-val" id="jfzRateDisplay">—</span></div>
+          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.daysLbl">Number of days</span><span class="jfz-sum-val"><span id="jfzDays">0</span> hari</span></div>
           <hr class="jfz-sum-divider">
           <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl">Jumlah</span><span class="jfz-sum-val" id="jfzTotal">—</span></div>
         </div>
-        <button class="jfz-btn-primary" id="jfzNextBtn"><span class="jfz-btn-text">Seterusnya &rarr;</span></button>
-        <p class="jfz-contact-note">Ada pertanyaan? <a href="https://wa.me/60108118968" target="_blank" rel="noopener">Hubungi WhatsApp</a></p>
+        <button class="jfz-btn-primary" id="jfzNextBtn"><span class="jfz-btn-text" data-i18n="modal.next">Next: Personal Details →</span></button>
+        <p class="jfz-contact-note"><span data-i18n="modal.wa.q">Questions?</span> <a href="https://wa.me/60108118968" target="_blank" rel="noopener" data-i18n="modal.wa">Contact WhatsApp</a></p>
       </div>
       <!-- Step 2 -->
       <div class="jfz-modal-body" id="jfzStep2" style="display:none">
         <div id="jfzError" class="jfz-error"></div>
-        <div class="jfz-field"><label class="jfz-label" for="jfzName">Nama Penuh (ikut IC)</label><input type="text" class="jfz-input" id="jfzName" placeholder="Nama Penuh" autocomplete="name"></div>
-        <div class="jfz-field"><label class="jfz-label" for="jfzEmail">E-mel</label><input type="email" class="jfz-input" id="jfzEmail" placeholder="contoh@email.com" autocomplete="email"></div>
+        <div class="jfz-field"><label class="jfz-label" for="jfzName" data-i18n="modal.nameLbl">Full Name (as per IC)</label><input type="text" class="jfz-input" id="jfzName" placeholder="Nama Penuh" autocomplete="name"></div>
+        <div class="jfz-field"><label class="jfz-label" for="jfzEmail" data-i18n="modal.emailLbl">Email</label><input type="email" class="jfz-input" id="jfzEmail" placeholder="contoh@email.com" autocomplete="email"></div>
         <div class="jfz-row">
-          <div class="jfz-field"><label class="jfz-label" for="jfzPhone">No. Telefon</label><input type="tel" class="jfz-input" id="jfzPhone" placeholder="01XXXXXXXX" autocomplete="tel"></div>
-          <div class="jfz-field"><label class="jfz-label" for="jfzIC">No. IC / Passport</label><input type="text" class="jfz-input" id="jfzIC" placeholder="XXXXXX-XX-XXXX"></div>
+          <div class="jfz-field"><label class="jfz-label" for="jfzPhone" data-i18n="modal.phoneLbl">Phone Number</label><input type="tel" class="jfz-input" id="jfzPhone" placeholder="01XXXXXXXX" autocomplete="tel"></div>
+          <div class="jfz-field"><label class="jfz-label" for="jfzIC" data-i18n="modal.icLbl">IC / Passport No.</label><input type="text" class="jfz-input" id="jfzIC" placeholder="XXXXXX-XX-XXXX"></div>
         </div>
         <div class="jfz-summary">
-          <div class="jfz-sum-row"><span class="jfz-sum-lbl">Kereta</span><span class="jfz-sum-val" id="jfzRecapCar">—</span></div>
-          <div class="jfz-sum-row"><span class="jfz-sum-lbl">Tarikh</span><span class="jfz-sum-val" id="jfzRecapDates">—</span></div>
-          <div class="jfz-sum-row"><span class="jfz-sum-lbl">Lokasi</span><span class="jfz-sum-val" id="jfzRecapLoc">—</span></div>
+          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.carLbl">Car</span><span class="jfz-sum-val" id="jfzRecapCar">—</span></div>
+          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.dateLbl">Date</span><span class="jfz-sum-val" id="jfzRecapDates">—</span></div>
+          <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.locLbl">Location</span><span class="jfz-sum-val" id="jfzRecapLoc">—</span></div>
           <hr class="jfz-sum-divider">
           <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl">Jumlah</span><span class="jfz-sum-val" id="jfzRecapTotal">—</span></div>
         </div>
         <div class="jfz-btn-row">
           <button class="jfz-btn-secondary" id="jfzBackBtn">&larr; Balik</button>
-          <button class="jfz-btn-primary" id="jfzPayBtn"><span class="jfz-btn-text">Teruskan ke Pembayaran</span><span class="jfz-spinner"></span></button>
+          <button class="jfz-btn-primary" id="jfzPayBtn"><span class="jfz-btn-text" data-i18n="modal.payBtn">Proceed to Payment</span><span class="jfz-spinner"></span></button>
         </div>
         <div class="jfz-chip-badge">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#e4a15a" stroke-width="1.5"/><path d="M8 12l2.5 2.5L16 9" stroke="#e4a15a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Pembayaran selamat melalui CHIP &bull; FPX / Kad / eWallet
+          <span data-i18n="modal.chipBadge">Secure payment via CHIP · FPX / Card / eWallet</span>
         </div>
-        <p class="jfz-contact-note">Masalah? <a href="https://wa.me/60108118968" target="_blank" rel="noopener">Hubungi kami</a></p>
+        <p class="jfz-contact-note"><span data-i18n="modal.trouble">Problem?</span> <a href="https://wa.me/60108118968" target="_blank" rel="noopener" data-i18n="modal.contact">Contact us</a></p>
       </div>
     </div>
   </div>
 
+  <!-- Flatpickr JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
   <!-- ═══════════════════════════════════════════════════════ -->
   <!-- BOOKING SYSTEM JS                                        -->
   <!-- ═══════════════════════════════════════════════════════ -->
@@ -3454,6 +3665,39 @@
   /* ══════════════════════════════════════
    * OPEN / CLOSE MODAL
    * ══════════════════════════════════════ */
+  /* ═══════════════════════════════════════
+     * FLATPICKR + BOOKED DATES
+     * ═══════════════════════════════════════ */
+  var fpPick = null, fpRet = null, bookedRanges = [];
+
+  function fetchBookedDates(carId, cb) {
+    var loader = document.getElementById('jfzAvailLoading');
+    if (loader) loader.classList.add('is-visible');
+    fetch(CFG.workerUrl + '/availability?carId=' + encodeURIComponent(carId))
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(data){ bookedRanges = data||[]; if(loader)loader.classList.remove('is-visible'); if(cb)cb(bookedRanges); })
+      .catch(function(){ bookedRanges=[]; if(loader)loader.classList.remove('is-visible'); if(cb)cb([]); });
+  }
+
+  function initFlatpickr(ranges) {
+    var today = new Date().toISOString().split('T')[0];
+    var disabled = (ranges||[]).map(function(r){ return {from:r.from, to:r.to}; });
+    if(fpPick){fpPick.destroy();fpPick=null;}
+    if(fpRet) {fpRet.destroy(); fpRet=null;}
+    fpPick = flatpickr('#jfzPickDate', {
+      minDate: today, dateFormat: 'Y-m-d', disableMobile: true, disable: disabled,
+      onChange: function(sel, str){
+        S._pickDateStr = str;
+        if(fpRet && str){ var nx=new Date(str); nx.setDate(nx.getDate()+1); fpRet.set('minDate', nx.toISOString().split('T')[0]); }
+        updatePrice();
+      }
+    });
+    fpRet = flatpickr('#jfzRetDate', {
+      minDate: today, dateFormat: 'Y-m-d', disableMobile: true, disable: disabled,
+      onChange: function(sel, str){ S._retDateStr = str; updatePrice(); }
+    });
+  }
+
   function openModal(carId, carName, pricePerDay, prefill) {
     var inv   = INVENTORY[carId];
     var avail = inv ? (typeof inv.available === 'number' ? inv.available : inv) : 999;
@@ -3464,6 +3708,7 @@
 
     S.carId = carId; S.carName = carName;
     S.pricePerDay = pricePerDay || 0; S.days = 0; S.total = 0;
+    S._pickDateStr = ''; S._retDateStr = '';
     prefill = prefill || {};
 
     var isCustom = S.pricePerDay === 0;
@@ -3476,14 +3721,10 @@
 
     var availEl = document.getElementById('jfzModalAvail');
     if (availEl) {
-      if (inv && avail < 999) { availEl.textContent = avail + ' unit tersedia'; availEl.style.display = ''; }
+      if (inv && avail < 999) { availEl.textContent = avail + (window._i18nDict && window._i18nDict["bw.avail.units"] ? window._i18nDict["bw.avail.units"] : " units available"); availEl.style.display = ''; }
       else availEl.style.display = 'none';
     }
 
-    var today = new Date().toISOString().split('T')[0];
-    var pe = document.getElementById('jfzPickDate'), re = document.getElementById('jfzRetDate');
-    pe.setAttribute('min', today); re.setAttribute('min', today);
-    pe.value = prefill.pickupDate || ''; re.value = prefill.returnDate || '';
     if (prefill.pickupLoc)  document.getElementById('jfzPickLoc').value  = prefill.pickupLoc;
     if (prefill.dropoffLoc) document.getElementById('jfzDropLoc').value  = prefill.dropoffLoc;
     clearError(); showStep(1);
@@ -3491,7 +3732,15 @@
     var m = document.getElementById('jfzModal');
     m.classList.add('is-open'); m.setAttribute('aria-hidden','false');
     document.body.style.overflow = 'hidden';
-    if (prefill.pickupDate && prefill.returnDate) updatePrice();
+
+    // Fetch booked dates then init calendar
+    fetchBookedDates(carId, function(ranges) {
+      initFlatpickr(ranges);
+      if (prefill.pickupDate && fpPick) { fpPick.setDate(prefill.pickupDate); S._pickDateStr = prefill.pickupDate; }
+      if (prefill.returnDate && fpRet)  { fpRet.setDate(prefill.returnDate);  S._retDateStr  = prefill.returnDate; }
+      if (prefill.pickupDate && prefill.returnDate) updatePrice();
+    });
+
     setTimeout(function(){ document.getElementById('jfzClose').focus(); }, 50);
   }
 
@@ -3499,6 +3748,9 @@
     var m = document.getElementById('jfzModal');
     m.classList.remove('is-open'); m.setAttribute('aria-hidden','true');
     document.body.style.overflow = '';
+    if(fpPick){fpPick.destroy();fpPick=null;}
+    if(fpRet) {fpRet.destroy(); fpRet=null;}
+    S._pickDateStr=''; S._retDateStr='';
   }
 
   /* ══════════════════════════════════════
@@ -3515,14 +3767,12 @@
    * PRICE CALC
    * ══════════════════════════════════════ */
   function updatePrice() {
-    var p=document.getElementById('jfzPickDate').value, r=document.getElementById('jfzRetDate').value;
+    var p = S._pickDateStr || '', r = S._retDateStr || '';
     if(p && r){
       var diff=Math.ceil((new Date(r)-new Date(p))/86400000);
       S.days=diff>0?diff:0; S.total=S.days*S.pricePerDay;
       document.getElementById('jfzDays').textContent  = S.days;
       document.getElementById('jfzTotal').textContent = S.total>0 ? 'RM '+S.total : '—';
-      var minR=new Date(p); minR.setDate(minR.getDate()+1);
-      document.getElementById('jfzRetDate').setAttribute('min', minR.toISOString().split('T')[0]);
     } else {
       S.days=0; S.total=0;
       document.getElementById('jfzDays').textContent='0';
@@ -3534,7 +3784,7 @@
    * STEP NAV
    * ══════════════════════════════════════ */
   function goNext() {
-    var p=document.getElementById('jfzPickDate').value, r=document.getElementById('jfzRetDate').value;
+    var p = S._pickDateStr || '', r = S._retDateStr || '';
     if(!p||!r){alert('Sila pilih Tarikh Pickup dan Return.');return;}
     if(S.days<=0){alert('Tarikh Return mesti selepas Tarikh Pickup.');return;}
     if(S.pricePerDay===0){
@@ -4324,28 +4574,166 @@
     };
 
     /* ── Car Rental: navigate to listing with filter ── */
-    window.bwSearchRental = function(){
-      var cat     = (document.getElementById('bwRentalCat')||{}).value || 'all';
-      var pickup  = (document.getElementById('bwRentalPickup')||{}).value || '';
-      var dropoff = (document.getElementById('bwRentalDropoff')||{}).value || '';
-      var pickD   = (document.getElementById('bwRentalPickDate')||{}).value || '';
-      var retD    = (document.getElementById('bwRentalRetDate')||{}).value || '';
+    /* ═══════════════════════════════════════════
+     * BOOKING WIDGET — Search with date availability
+     * ═══════════════════════════════════════════ */
+    var _bwFpPick = null, _bwFpRet = null;
 
-      // Navigate to listing with category filter
+    // Init flatpickr on widget date inputs
+    function bwInitFlatpickr() {
+      if (typeof flatpickr === 'undefined') return;
+      var today = new Date().toISOString().split('T')[0];
+      if (!_bwFpPick) {
+        _bwFpPick = flatpickr('#bwRentalPickDate', {
+          minDate: today, dateFormat: 'Y-m-d', disableMobile: true,
+          onChange: function(sel, str) {
+            if (_bwFpRet && str) {
+              var nx = new Date(str); nx.setDate(nx.getDate() + 1);
+              _bwFpRet.set('minDate', nx.toISOString().split('T')[0]);
+            }
+          }
+        });
+      }
+      if (!_bwFpRet) {
+        _bwFpRet = flatpickr('#bwRentalRetDate', {
+          minDate: today, dateFormat: 'Y-m-d', disableMobile: true
+        });
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bwInitFlatpickr);
+    else setTimeout(bwInitFlatpickr, 500);
+
+    window.bwSearchRental = function() {
+      var cat    = (document.getElementById('bwRentalCat')||{}).value || '';
+      var pickup = (document.getElementById('bwRentalPickup')||{}).value || '';
+      var dropoff= (document.getElementById('bwRentalDropoff')||{}).value || '';
+      var pickD  = (document.getElementById('bwRentalPickDate')||{}).value || '';
+      var retD   = (document.getElementById('bwRentalRetDate')||{}).value || '';
+
+      // Validate dates
+      if (pickD && retD && retD <= pickD) {
+        alert('Tarikh Return mesti selepas Tarikh Pickup.'); return;
+      }
+
+      // Navigate to listing
       var hash = cat && cat !== 'all' ? '#listing-' + cat : '#listing';
       history.pushState(null, '', hash);
-
-      // Trigger router
       window.dispatchEvent(new Event('hashchange'));
 
-      // Pre-fill any open modal (if user clicks Book right after)
+      // Pre-fill modal prefill
       window._bwPrefill = { pickupLoc: pickup, dropoffLoc: dropoff, pickupDate: pickD, returnDate: retD };
 
       // Scroll to listing
       setTimeout(function(){
         var el = document.getElementById('view-listing');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      }, 80);
+
+      // If dates selected, fetch all availability and filter cards
+      if (pickD && retD) {
+        bwApplyDateFilter(pickD, retD, cat);
+      } else {
+        bwClearDateFilter();
+      }
+    };
+
+    // ── Date overlap check ──
+    function bwDatesOverlap(from, to, pickD, retD) {
+      return from <= retD && to >= pickD;
+    }
+
+    // ── Apply date filter on listing cards ──
+    window.bwApplyDateFilter = function(pickD, retD, cat) {
+      var btn = document.getElementById('bwSearchBtn');
+      if (btn) { btn.disabled = true; btn.classList.add('is-loading'); }
+
+      var WORKER = 'https://wispy-cloud-2e6f.1211111996.workers.dev';
+
+      fetch(WORKER + '/availability/all')
+        .then(function(r) { return r.ok ? r.json() : {}; })
+        .then(function(allBooked) {
+          if (btn) { btn.disabled = false; btn.classList.remove('is-loading'); }
+
+          // allBooked = { carId: [{from, to}, ...], ... }
+          var cards = document.querySelectorAll('.listing-card');
+          var availCount = 0;
+
+          cards.forEach(function(card) {
+            // Get carId from book button
+            var bookBtn = card.querySelector('.rnx-book-btn');
+            var carId = '';
+            if (bookBtn) {
+              var href = bookBtn.getAttribute('href') || '';
+              carId = href.replace('#car-', '');
+              if (!carId) carId = bookBtn.getAttribute('data-dyn-id') || '';
+            }
+
+            // Check category
+            var types = (card.getAttribute('data-types') || '').split(/\s+/);
+            var catMatch = !cat || cat === 'all' || types.indexOf(cat) !== -1;
+
+            // Check date availability
+            var bookedRangesForCar = allBooked[carId] || [];
+            var isBooked = bookedRangesForCar.some(function(r) {
+              return bwDatesOverlap(r.from, r.to, pickD, retD);
+            });
+
+            // Also check inventory available count vs booked count
+            var inv = window.INVENTORY && window.INVENTORY[carId];
+            var totalUnits = inv ? (inv.total || 1) : 1;
+            var bookedCount = bookedRangesForCar.filter(function(r) {
+              return bwDatesOverlap(r.from, r.to, pickD, retD);
+            }).length;
+            var hasAvailUnit = bookedCount < totalUnits;
+
+            var isAvail = hasAvailUnit;
+            var show = catMatch;
+
+            card.style.display = show ? '' : 'none';
+
+            if (show) {
+              if (isAvail) {
+                card.classList.remove('date-unavail');
+                availCount++;
+              } else {
+                card.classList.add('date-unavail');
+              }
+            } else {
+              card.classList.remove('date-unavail');
+            }
+          });
+
+          // Show banner
+          var fmt = function(d) {
+            if (!d) return '-';
+            var a = d.split('-'); return a[2]+'/'+a[1]+'/'+a[0];
+          };
+          var catLabel = cat && cat !== 'all' ? cat.charAt(0).toUpperCase()+cat.slice(1)+' · ' : '';
+          var banner = document.getElementById('rnxAvailBanner');
+          var msg    = document.getElementById('rnxAvailMsg');
+          if (banner) banner.classList.add('is-visible');
+          if (msg) msg.innerHTML = '<i class="fa-solid fa-calendar-check" style="color:#e4a15a"></i> '
+            + catLabel + '<strong>' + availCount + ' kereta</strong> tersedia '
+            + fmt(pickD) + ' → ' + fmt(retD);
+        })
+        .catch(function() {
+          if (btn) { btn.disabled = false; btn.classList.remove('is-loading'); }
+        });
+    };
+
+    // ── Clear date filter ──
+    window.bwClearDateFilter = function() {
+      document.querySelectorAll('.listing-card').forEach(function(c) {
+        c.classList.remove('date-unavail');
+      });
+      var banner = document.getElementById('rnxAvailBanner');
+      if (banner) banner.classList.remove('is-visible');
+      // Re-run normal category filter
+      if (typeof window.applyListingFilter === 'function') {
+        var hash = location.hash;
+        var type = hash.indexOf('listing-') !== -1 ? hash.slice(hash.indexOf('listing-')+8) : 'all';
+        window.applyListingFilter(type);
+      }
     };
 
     /* ── WhatsApp enquiry builder ── */
