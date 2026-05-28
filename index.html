@@ -3049,11 +3049,11 @@
       if (bags) bags.innerHTML = '<i class="fa-solid fa-suitcase fleet-gold text-[13px]"></i> ' + getBagsLabel(center);
       if (price) price.textContent = center.price;
       if (detailsLink) {
-        detailsLink.onclick = function() {
-          if (typeof openModal !== 'function') return;
-          var priceNum = parseInt((center.price||'').replace(/[^0-9]/g,''), 10) || 0;
-          var carId    = (center.details||'').replace('#car-','');
-          openModal(carId, center.name, priceNum);
+        // Store current center car for the delegated click handler
+        window._fleetCurrentCar = {
+          id:    (center.details||'').replace('#car-',''),
+          name:  center.name,
+          price: parseInt((center.price||'').replace(/[^0-9]/g,''), 10) || 0
         };
       }
       mobileDots.forEach(function (dot, idx) { dot.classList.toggle('is-active', idx === active); });
@@ -3063,6 +3063,33 @@
     document.addEventListener('visibilitychange', function () { if (document.hidden) { if (fleetAutoTimer) window.clearInterval(fleetAutoTimer); fleetAutoTimer = null; } else { startFleetAuto(); } });
     window._reRenderFleet = renderFleet;
     renderFleet(); startFleetAuto();
+
+    // Robust delegated click handler for the fleet Book button
+    var fleetBtn = document.getElementById('fleetDetailsLink');
+    if (fleetBtn) {
+      fleetBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var car = window._fleetCurrentCar;
+        if (!car || !car.id) { return; }
+        if (typeof window.openModal === 'function') {
+          window.openModal(car.id, car.name, car.price);
+        } else {
+          // openModal not ready yet — retry shortly
+          var tries = 0;
+          var iv = setInterval(function() {
+            tries++;
+            if (typeof window.openModal === 'function') {
+              clearInterval(iv);
+              window.openModal(car.id, car.name, car.price);
+            } else if (tries > 20) {
+              clearInterval(iv);
+              // Fallback: go to listing page
+              location.hash = '#listing';
+            }
+          }, 100);
+        }
+      });
+    }
   })();
 
   // ─────────────────────────────────────────────
@@ -3929,6 +3956,9 @@
   document.getElementById('jfzNextBtn').addEventListener('click',goNext);
   document.getElementById('jfzBackBtn').addEventListener('click',function(){clearError();showStep(1);});
   document.getElementById('jfzPayBtn').addEventListener('click',proceedToPayment);
+
+  /* Expose openModal globally for fleet & widget triggers */
+  window.openModal = openModal;
 
   /* Intercept listing book buttons */
   document.addEventListener('click',function(e){
@@ -4813,15 +4843,16 @@
     /* ── Pre-fill booking modal from widget ── */
     var _origOpenModal = null;
     var checkInterval = setInterval(function(){
-      if (typeof openModal === 'function' && !_origOpenModal) {
-        _origOpenModal = openModal;
+      if (typeof window.openModal === 'function' && !_origOpenModal) {
+        _origOpenModal = window.openModal;
         window.openModal = function(carId, carName, price, prefill){
-          var pf = window._bwPrefill || prefill || {};
+          var pf = prefill || window._bwPrefill || {};
           _origOpenModal(carId, carName, price, pf);
+          window._bwPrefill = null; // consume once
         };
         clearInterval(checkInterval);
       }
-    }, 300);
+    }, 200);
 
     /* ── Set min date to today ── */
     var today = new Date().toISOString().split('T')[0];
