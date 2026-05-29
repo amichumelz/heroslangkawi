@@ -936,9 +936,9 @@
      * ════════════════════════════════════════════ */
     #bookingWidget {
       background: #161616;
-      padding: 56px 48px;
+      padding: 136px 48px 56px; /* top padding accounts for fixed 80px nav */
     }
-    @media (max-width: 768px) { #bookingWidget { padding: 36px 20px; } }
+    @media (max-width: 768px) { #bookingWidget { padding: 104px 20px 36px; } }
 
     .bw-inner {
       max-width: 860px; margin: 0 auto;
@@ -1245,25 +1245,6 @@
   <!-- ═══════════════════════════════════════════ -->
   <div id="view-home">
 
-    <section id="heroSection" class="relative h-screen hero-gradient flex items-center px-12 lg:px-24">
-      <div id="heroBg" class="hero-bg"></div>
-      <div id="heroBgNext" class="hero-bg-next"></div>
-      <div class="hero-content max-w-2xl">
-        <p class="text-gold tracking-[0.3em] uppercase text-xs mb-4 font-bold">✦ Premium</p>
-        <h1 id="heroHeading" class="text-7xl md:text-8xl font-bold mb-6" data-i18n="hero.title">Kedah Car Rental</h1>
-        <div class="flex items-center gap-4">
-          <p id="heroModel" class="text-xl text-gray-300">Perodua Axia 1.0 Style 2020</p>
-          <div class="h-[1px] w-12 bg-gold"></div>
-          <p class="text-xl font-bold"><span id="heroPrice" class="text-gold">RM 90</span> <span id="heroPriceUnit" class="text-sm font-normal text-gray-400">/ DAY</span></p>
-        </div>
-      </div>
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-[3]">
-        <button type="button" class="hero-dot is-active" data-hero-slide="0" aria-label="Hero slide 1" aria-current="true"></button>
-        <button type="button" class="hero-dot" data-hero-slide="1" aria-label="Hero slide 2"></button>
-        <button type="button" class="hero-dot" data-hero-slide="2" aria-label="Hero slide 3"></button>
-      </div>
-    </section>
-
     <!-- ════════════════════════════════════════════ -->
     <!-- BOOKING WIDGET                               -->
     <!-- ════════════════════════════════════════════ -->
@@ -1313,15 +1294,25 @@
               </select>
             </div>
           </div>
-          <div class="bw-row cols-3">
+          <div class="bw-row cols-4">
             <div class="bw-field">
               <i class="fa-regular fa-calendar"></i>
-              <input type="text" id="bwRentalPickDate" placeholder="Pilih tarikh pickup" readonly style="cursor:pointer">
+              <input type="text" id="bwRentalPickDate" placeholder="Tarikh pickup" readonly style="cursor:pointer">
+            </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-clock"></i>
+              <input type="text" id="bwRentalPickTime" placeholder="Masa pickup" readonly style="cursor:pointer">
             </div>
             <div class="bw-field">
               <i class="fa-regular fa-calendar-check"></i>
-              <input type="text" id="bwRentalRetDate" placeholder="Pilih tarikh return" readonly style="cursor:pointer">
+              <input type="text" id="bwRentalRetDate" placeholder="Tarikh return" readonly style="cursor:pointer">
             </div>
+            <div class="bw-field">
+              <i class="fa-regular fa-clock"></i>
+              <input type="text" id="bwRentalRetTime" placeholder="Masa return" readonly style="cursor:pointer">
+            </div>
+          </div>
+          <div class="bw-row">
             <div class="bw-field">
               <i class="fa-solid fa-car-side"></i>
               <select id="bwRentalCat">
@@ -1450,6 +1441,25 @@
       </div>
     </section>
 
+
+    <section id="heroSection" class="relative h-screen hero-gradient flex items-center px-12 lg:px-24">
+      <div id="heroBg" class="hero-bg"></div>
+      <div id="heroBgNext" class="hero-bg-next"></div>
+      <div class="hero-content max-w-2xl">
+        <p class="text-gold tracking-[0.3em] uppercase text-xs mb-4 font-bold">✦ Premium</p>
+        <h1 id="heroHeading" class="text-7xl md:text-8xl font-bold mb-6" data-i18n="hero.title">Kedah Car Rental</h1>
+        <div class="flex items-center gap-4">
+          <p id="heroModel" class="text-xl text-gray-300">Perodua Axia 1.0 Style 2020</p>
+          <div class="h-[1px] w-12 bg-gold"></div>
+          <p class="text-xl font-bold"><span id="heroPrice" class="text-gold">RM 90</span> <span id="heroPriceUnit" class="text-sm font-normal text-gray-400">/ DAY</span></p>
+        </div>
+      </div>
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-[3]">
+        <button type="button" class="hero-dot is-active" data-hero-slide="0" aria-label="Hero slide 1" aria-current="true"></button>
+        <button type="button" class="hero-dot" data-hero-slide="1" aria-label="Hero slide 2"></button>
+        <button type="button" class="hero-dot" data-hero-slide="2" aria-label="Hero slide 3"></button>
+      </div>
+    </section>
 
     <section id="about-section" class="py-24 px-12 lg:px-24 grid md:grid-cols-2 gap-16 items-center">
       <div>
@@ -3608,6 +3618,16 @@
             <input type="text" class="jfz-input" id="jfzRetDate" placeholder="Pilih tarikh return" readonly style="cursor:pointer">
           </div>
         </div>
+        <div class="jfz-row">
+          <div class="jfz-field">
+            <label class="jfz-label" for="jfzPickTime"><i class="fa-regular fa-clock" style="color:#e4a15a;margin-right:4px"></i>Pickup Time</label>
+            <input type="text" class="jfz-input" id="jfzPickTime" placeholder="Pilih masa pickup" readonly style="cursor:pointer">
+          </div>
+          <div class="jfz-field">
+            <label class="jfz-label" for="jfzRetTime"><i class="fa-regular fa-clock" style="color:#e4a15a;margin-right:4px"></i>Return Time</label>
+            <input type="text" class="jfz-input" id="jfzRetTime" placeholder="Pilih masa return" readonly style="cursor:pointer">
+          </div>
+        </div>
         <div class="jfz-date-legend">
           <div class="jfz-legend-item"><div class="jfz-legend-dot selected"></div> Tarikh dipilih</div>
           <div class="jfz-legend-item"><div class="jfz-legend-dot avail"></div> Dalam tempahan</div>
@@ -3616,6 +3636,7 @@
         <div class="jfz-summary">
           <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.rateLbl">Rental rate</span><span class="jfz-sum-val" id="jfzRateDisplay">—</span></div>
           <div class="jfz-sum-row"><span class="jfz-sum-lbl" data-i18n="modal.daysLbl">Number of days</span><span class="jfz-sum-val"><span id="jfzDays">0</span> <span data-i18n="modal.daysUnit">days</span></span></div>
+          <div class="jfz-sum-row" id="jfzExtraHoursRow" style="display:none"><span class="jfz-sum-lbl">Extra hours</span><span class="jfz-sum-val"><span id="jfzExtraHours">0</span> jam × RM 20 = <span id="jfzExtraHoursAmt">RM 0</span></span></div>
           <hr class="jfz-sum-divider">
           <div class="jfz-sum-row jfz-sum-total"><span class="jfz-sum-lbl" data-i18n="modal.totalLbl">Total</span><span class="jfz-sum-val" id="jfzTotal">—</span></div>
         </div>
@@ -3725,7 +3746,9 @@
   /* ═══════════════════════════════════════
      * FLATPICKR + BOOKED DATES
      * ═══════════════════════════════════════ */
-  var fpPick = null, fpRet = null, bookedRanges = [];
+  var fpPick = null, fpRet = null, fpPickTime = null, fpRetTime = null, bookedRanges = [];
+  // Hourly rate for overtime (1-6h past 24h cycle)
+  var JFZ_HOURLY_RATE = 20;
 
   function fetchBookedDates(carId, cb) {
     var loader = document.getElementById('jfzAvailLoading');
@@ -3741,6 +3764,8 @@
     var disabled = (ranges||[]).map(function(r){ return {from:r.from, to:r.to}; });
     if(fpPick){fpPick.destroy();fpPick=null;}
     if(fpRet) {fpRet.destroy(); fpRet=null;}
+    if(fpPickTime){fpPickTime.destroy();fpPickTime=null;}
+    if(fpRetTime){fpRetTime.destroy();fpRetTime=null;}
     fpPick = flatpickr('#jfzPickDate', {
       minDate: today, dateFormat: 'Y-m-d', disableMobile: true, disable: disabled,
       onChange: function(sel, str){
@@ -3752,6 +3777,16 @@
     fpRet = flatpickr('#jfzRetDate', {
       minDate: today, dateFormat: 'Y-m-d', disableMobile: true, disable: disabled,
       onChange: function(sel, str){ S._retDateStr = str; updatePrice(); }
+    });
+    fpPickTime = flatpickr('#jfzPickTime', {
+      enableTime: true, noCalendar: true, dateFormat: 'H:i',
+      time_24hr: true, minuteIncrement: 30, defaultHour: 10, disableMobile: true,
+      onChange: function(sel, str){ S._pickTimeStr = str; updatePrice(); }
+    });
+    fpRetTime = flatpickr('#jfzRetTime', {
+      enableTime: true, noCalendar: true, dateFormat: 'H:i',
+      time_24hr: true, minuteIncrement: 30, defaultHour: 10, disableMobile: true,
+      onChange: function(sel, str){ S._retTimeStr = str; updatePrice(); }
     });
   }
 
@@ -3766,6 +3801,8 @@
     S.carId = carId; S.carName = carName;
     S.pricePerDay = pricePerDay || 0; S.days = 0; S.total = 0;
     S._pickDateStr = ''; S._retDateStr = '';
+    S._pickTimeStr = ''; S._retTimeStr = '';
+    S.extraHours = 0; S.extraHoursAmt = 0;
     prefill = prefill || {};
 
     var isCustom = S.pricePerDay === 0;
@@ -3775,6 +3812,7 @@
     document.getElementById('jfzCustomNote').className    = 'jfz-custom-note' + (isCustom ? ' is-visible' : '');
     document.getElementById('jfzDays').textContent  = '0';
     document.getElementById('jfzTotal').textContent = '—';
+    var exRow = document.getElementById('jfzExtraHoursRow'); if (exRow) exRow.style.display = 'none';
 
     var availEl = document.getElementById('jfzModalAvail');
     if (availEl) {
@@ -3795,6 +3833,8 @@
       initFlatpickr(ranges);
       if (prefill.pickupDate && fpPick) { fpPick.setDate(prefill.pickupDate); S._pickDateStr = prefill.pickupDate; }
       if (prefill.returnDate && fpRet)  { fpRet.setDate(prefill.returnDate);  S._retDateStr  = prefill.returnDate; }
+      if (prefill.pickupTime && fpPickTime) { fpPickTime.setDate(prefill.pickupTime); S._pickTimeStr = prefill.pickupTime; }
+      if (prefill.returnTime && fpRetTime)  { fpRetTime.setDate(prefill.returnTime);   S._retTimeStr  = prefill.returnTime; }
       if (prefill.pickupDate && prefill.returnDate) updatePrice();
     });
 
@@ -3807,7 +3847,10 @@
     document.body.style.overflow = '';
     if(fpPick){fpPick.destroy();fpPick=null;}
     if(fpRet) {fpRet.destroy(); fpRet=null;}
+    if(fpPickTime){fpPickTime.destroy();fpPickTime=null;}
+    if(fpRetTime){fpRetTime.destroy();fpRetTime=null;}
     S._pickDateStr=''; S._retDateStr='';
+    S._pickTimeStr=''; S._retTimeStr='';
   }
 
   /* ══════════════════════════════════════
@@ -3821,19 +3864,67 @@
   }
 
   /* ══════════════════════════════════════
-   * PRICE CALC
+   * PRICE CALC — 24h cycle rules:
+   *  • Base ≤ 24h         → 1 day charge
+   *  • Each full 24h      → 1 day charge
+   *  • Overtime 1-6h      → RM 20 × jam (extra)
+   *  • Overtime > 6h      → kira sebagai +1 hari penuh
    * ══════════════════════════════════════ */
   function updatePrice() {
     var p = S._pickDateStr || '', r = S._retDateStr || '';
-    if(p && r){
-      var diff=Math.ceil((new Date(r)-new Date(p))/86400000);
-      S.days=diff>0?diff:0; S.total=S.days*S.pricePerDay;
-      document.getElementById('jfzDays').textContent  = S.days;
-      document.getElementById('jfzTotal').textContent = S.total>0 ? 'RM '+S.total : '—';
+    var pt = S._pickTimeStr || '', rt = S._retTimeStr || '';
+    var exRow = document.getElementById('jfzExtraHoursRow');
+
+    // Need date + time on both sides to compute
+    if (!p || !r || !pt || !rt) {
+      S.days = 0; S.total = 0; S.extraHours = 0; S.extraHoursAmt = 0;
+      document.getElementById('jfzDays').textContent = '0';
+      document.getElementById('jfzTotal').textContent = '—';
+      if (exRow) exRow.style.display = 'none';
+      return;
+    }
+
+    var pickupDt = new Date(p + 'T' + pt + ':00');
+    var returnDt = new Date(r + 'T' + rt + ':00');
+    var totalMs  = returnDt - pickupDt;
+    if (totalMs <= 0) {
+      S.days = 0; S.total = 0; S.extraHours = 0; S.extraHoursAmt = 0;
+      document.getElementById('jfzDays').textContent = '0';
+      document.getElementById('jfzTotal').textContent = '—';
+      if (exRow) exRow.style.display = 'none';
+      return;
+    }
+
+    var totalHours = totalMs / 3600000;
+    var days, extraHours;
+
+    if (totalHours <= 24) {
+      // Minimum 1 day for any rental within first 24 hours
+      days = 1; extraHours = 0;
     } else {
-      S.days=0; S.total=0;
-      document.getElementById('jfzDays').textContent='0';
-      document.getElementById('jfzTotal').textContent='—';
+      var baseDays = Math.floor(totalHours / 24);
+      var leftover = totalHours - baseDays * 24;
+      var leftHrsCeil = Math.ceil(leftover - 0.0001); // tolerate float fuzz
+      if (leftHrsCeil <= 0)      { days = baseDays;     extraHours = 0; }
+      else if (leftHrsCeil <= 6) { days = baseDays;     extraHours = leftHrsCeil; }
+      else                       { days = baseDays + 1; extraHours = 0; }
+    }
+
+    var extraAmt = extraHours * JFZ_HOURLY_RATE;
+    var total    = days * S.pricePerDay + extraAmt;
+
+    S.days = days; S.extraHours = extraHours; S.extraHoursAmt = extraAmt; S.total = total;
+    document.getElementById('jfzDays').textContent  = days;
+    document.getElementById('jfzTotal').textContent = total > 0 ? 'RM ' + total : '—';
+
+    if (exRow) {
+      if (extraHours > 0) {
+        document.getElementById('jfzExtraHours').textContent    = extraHours;
+        document.getElementById('jfzExtraHoursAmt').textContent = 'RM ' + extraAmt;
+        exRow.style.display = '';
+      } else {
+        exRow.style.display = 'none';
+      }
     }
   }
 
@@ -3842,20 +3933,24 @@
    * ══════════════════════════════════════ */
   function goNext() {
     var p = S._pickDateStr || '', r = S._retDateStr || '';
+    var pt = S._pickTimeStr || '', rt = S._retTimeStr || '';
     if(!p||!r){alert(jfzT('alert.selectDates'));return;}
+    if(!pt||!rt){alert('Sila pilih masa pickup dan masa return.');return;}
     if(S.days<=0){alert(jfzT('alert.dateOrder'));return;}
     if(S.pricePerDay===0){
       var fmt=function(d){if(!d)return'-';var a=d.split('-');return a[2]+'/'+a[1]+'/'+a[0];};
       var msg='Hi JFZ, saya ingin bertanya harga sewa '+S.carName+'.'
         +'\nPickup: '+document.getElementById('jfzPickLoc').value
         +'\nDrop Off: '+document.getElementById('jfzDropLoc').value
-        +'\nPickup: '+fmt(p)+'\nReturn: '+fmt(r);
+        +'\nPickup: '+fmt(p)+' '+pt+'\nReturn: '+fmt(r)+' '+rt;
       window.open('https://wa.me/'+CFG.whatsapp+'?text='+encodeURIComponent(msg),'_blank','noopener');
       closeModal(); return;
     }
     var fmt=function(d){if(!d)return'-';var a=d.split('-');return a[2]+'/'+a[1]+'/'+a[0];};
+    var daysLine = S.days+' '+jfzT('modal.daysWord','days');
+    if (S.extraHours > 0) daysLine += ' + '+S.extraHours+' jam';
     document.getElementById('jfzRecapCar').textContent   = S.carName;
-    document.getElementById('jfzRecapDates').textContent = fmt(p)+' – '+fmt(r)+' ('+S.days+' '+jfzT('modal.daysWord','days')+')';
+    document.getElementById('jfzRecapDates').textContent = fmt(p)+' '+pt+' – '+fmt(r)+' '+rt+' ('+daysLine+')';
     document.getElementById('jfzRecapLoc').textContent   = document.getElementById('jfzPickLoc').value+' → '+document.getElementById('jfzDropLoc').value;
     document.getElementById('jfzRecapTotal').textContent = 'RM '+S.total;
     clearError(); showStep(2);
@@ -3889,13 +3984,16 @@
 
     var fmt=function(d){if(!d)return'-';var a=d.split('-');return a[2]+'/'+a[1]+'/'+a[0];};
     var p=document.getElementById('jfzPickDate').value, r=document.getElementById('jfzRetDate').value;
+    var pt=document.getElementById('jfzPickTime').value, rt=document.getElementById('jfzRetTime').value;
 
     var data={
       carId:S.carId, carName:S.carName, pricePerDay:S.pricePerDay,
       days:S.days, totalAmount:S.total,
+      extraHours: S.extraHours||0, extraHoursAmount: S.extraHoursAmt||0,
       pickupLoc:document.getElementById('jfzPickLoc').value,
       dropoffLoc:document.getElementById('jfzDropLoc').value,
       pickupDate:p, returnDate:r,
+      pickupTime:pt, returnTime:rt,
       name:document.getElementById('jfzName').value.trim(),
       email:document.getElementById('jfzEmail').value.trim(),
       phone:ph, ic:document.getElementById('jfzIC').value.trim(),
@@ -4637,7 +4735,7 @@
     /* ═══════════════════════════════════════════
      * BOOKING WIDGET — Search with date availability
      * ═══════════════════════════════════════════ */
-    var _bwFpPick = null, _bwFpRet = null;
+    var _bwFpPick = null, _bwFpRet = null, _bwFpPickTime = null, _bwFpRetTime = null;
 
     // Init flatpickr on widget date inputs
     function bwInitFlatpickr() {
@@ -4659,6 +4757,21 @@
           minDate: today, dateFormat: 'Y-m-d', disableMobile: true
         });
       }
+      // ── Time pickers for pickup & return ──
+      if (!_bwFpPickTime) {
+        _bwFpPickTime = flatpickr('#bwRentalPickTime', {
+          enableTime: true, noCalendar: true, dateFormat: 'H:i',
+          time_24hr: true, minuteIncrement: 30, defaultHour: 10,
+          disableMobile: true
+        });
+      }
+      if (!_bwFpRetTime) {
+        _bwFpRetTime = flatpickr('#bwRentalRetTime', {
+          enableTime: true, noCalendar: true, dateFormat: 'H:i',
+          time_24hr: true, minuteIncrement: 30, defaultHour: 10,
+          disableMobile: true
+        });
+      }
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bwInitFlatpickr);
     else setTimeout(bwInitFlatpickr, 500);
@@ -4669,6 +4782,8 @@
       var dropoff= (document.getElementById('bwRentalDropoff')||{}).value || '';
       var pickD  = (document.getElementById('bwRentalPickDate')||{}).value || '';
       var retD   = (document.getElementById('bwRentalRetDate')||{}).value || '';
+      var pickT  = (document.getElementById('bwRentalPickTime')||{}).value || '';
+      var retT   = (document.getElementById('bwRentalRetTime')||{}).value || '';
 
       // Validate
       if (pickD && retD && retD <= pickD) {
@@ -4677,7 +4792,7 @@
       }
 
       // Pre-fill modal with widget values
-      window._bwPrefill = { pickupLoc: pickup, dropoffLoc: dropoff, pickupDate: pickD, returnDate: retD };
+      window._bwPrefill = { pickupLoc: pickup, dropoffLoc: dropoff, pickupDate: pickD, returnDate: retD, pickupTime: pickT, returnTime: retT };
 
       // Navigate using exposed router fn (fixes hashchange issue)
       var hash = '#listing' + (cat && cat !== 'all' ? '-' + cat : '');
