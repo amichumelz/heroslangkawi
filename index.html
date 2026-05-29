@@ -970,6 +970,11 @@
     .bw-tab i { font-size: 13px; }
     .bw-tab.is-active { background: #e4a15a; color: #111; }
     .bw-tab:hover:not(.is-active) { color: rgba(255,255,255,.8); background: rgba(255,255,255,.06); }
+    /* Mobile: stack tabs vertically so they don't overflow the frame */
+    @media (max-width: 640px) {
+      .bw-tabs { width: 100%; flex-direction: column; gap: 4px; }
+      .bw-tab  { width: 100%; justify-content: center; padding: 12px 16px; }
+    }
 
     /* ── Card ── */
     .bw-card {
@@ -984,11 +989,13 @@
     .bw-row.cols-2 { grid-template-columns: 1fr 1fr; }
     .bw-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
     .bw-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-    @media (max-width: 640px) {
-      .bw-row.cols-2, .bw-row.cols-3, .bw-row.cols-4 { grid-template-columns: 1fr; }
-    }
+    /* Tablet & mobile: cols-4 → 2-col (date/time pairs stay side-by-side) */
     @media (max-width: 900px) {
       .bw-row.cols-4 { grid-template-columns: 1fr 1fr; }
+    }
+    /* Mobile: cols-2 and cols-3 stack; cols-4 stays 2-col */
+    @media (max-width: 640px) {
+      .bw-row.cols-2, .bw-row.cols-3 { grid-template-columns: 1fr; }
     }
 
     /* ── Field ── */
